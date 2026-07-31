@@ -1,0 +1,196 @@
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import { createOrder, createRazorpayOrder, verifyPayment } from '../services/api';
+import { clearCart } from '../redux/cartSlice';
+
+function Checkout() {
+  const cartItems = useSelector(state => state.cart.items);
+  const { token, fullName } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    customerName: fullName || '',
+    address: '',
+    city: '',
+    postalCode: '',
+    phone: '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  if (!token) {
+    return (
+      <div className="checkout-page">
+        <p>Please <Link to="/login">login</Link> to proceed with checkout.</p>
+      </div>
+    );
+  }
+
+  if (cartItems.length === 0) {
+    return (
+      <div className="checkout-page">
+        <p>Your cart is empty. <Link to="/">Continue Shopping</Link></p>
+      </div>
+    );
+  }
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+
+  try {
+    // Step 1: Create a Razorpay order
+    const razorpayRes = await createRazorpayOrder(total);
+    const { orderId, amount, currency, keyId } = razorpayRes.data;
+
+    // Step 2: Open Razorpay checkout popup
+    const options = {
+      key: keyId,
+      amount: amount * 100,
+      currency: currency,
+      name: "BuyEasy",
+      description: "Order Payment",
+      order_id: orderId,
+      handler: async function (response) {
+        try {
+          // Step 3: Verify payment signature
+          const verifyRes = await verifyPayment({
+            razorpayOrderId: response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpaySignature: response.razorpay_signature,
+          });
+
+          if (verifyRes.data.success) {
+            // Step 4: Only NOW create the actual order in our database
+            const orderData = {
+              customerName: form.customerName,
+              address: form.address,
+              city: form.city,
+              postalCode: form.postalCode,
+              phone: form.phone,
+              totalAmount: total,
+              items: cartItems.map(item => ({
+                productId: item.id,
+                productName: item.name,
+                price: item.price,
+                quantity: item.quantity,
+              })),
+            };
+
+            const orderRes = await createOrder(orderData);
+            dispatch(clearCart());
+            navigate(`/order-confirmation/${orderRes.data.id}`);
+          } else {
+            setError('Payment verification failed. Please try again.');
+          }
+        } catch (err) {
+          setError('Payment verification failed.');
+        } finally {
+          setLoading(false);
+        }
+      },
+      prefill: {
+        name: form.customerName,
+        contact: form.phone,
+      },
+      theme: {
+        color: "#fb641b",
+      },
+      modal: {
+        ondismiss: function () {
+          setLoading(false);
+        },
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    setError('Failed to initiate payment');
+    setLoading(false);
+  }
+};
+
+  return (
+    <div className="checkout-page">
+      <h2>Checkout</h2>
+
+      <div className="checkout-container">
+        <form className="checkout-form" onSubmit={handleSubmit}>
+          <h3>Shipping Address</h3>
+          {error && <p className="auth-error">{error}</p>}
+
+          <input
+            type="text"
+            name="customerName"
+            placeholder="Full Name"
+            value={form.customerName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={form.address}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            value={form.city}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="postalCode"
+            placeholder="Postal Code"
+            value={form.postalCode}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            value={form.phone}
+            onChange={handleChange}
+            required
+          />
+
+          <button type="submit" disabled={loading}>
+            {loading ? 'Placing Order...' : `Place Order (₹${total})`}
+          </button>
+        </form>
+
+        <div className="order-summary">
+          <h3>Order Summary</h3>
+          {cartItems.map(item => (
+            <div key={item.id} className="summary-item">
+              <span>{item.name} x {item.quantity}</span>
+              <span>₹{item.price * item.quantity}</span>
+            </div>
+          ))}
+          <div className="summary-total">
+            <strong>Total: ₹{total}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Checkout;
