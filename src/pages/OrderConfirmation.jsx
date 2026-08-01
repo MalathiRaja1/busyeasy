@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getOrderById } from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 function OrderConfirmation() {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [error, setError] = useState('');
+const { t } = useTranslation();
 
   useEffect(() => {
     getOrderById(id)
@@ -19,16 +21,16 @@ function OrderConfirmation() {
   return (
     <div className="confirmation-page">
       <div className="confirmation-box">
-        <h2>✅ Order Placed Successfully!</h2>
-        <p>Order ID: #{order.id}</p>
-        <p>Status: {order.status}</p>
+       <h2>✅ {t('order_placed')}</h2>
+       <p>{t('order_id')}: #{order.id}</p>
+       <p>{t('status')}: {order.status}</p>
 
-        <h3>Shipping To:</h3>
+        <h3>{t('shipping_to')}:</h3>
         <p>{order.customerName}</p>
         <p>{order.address}, {order.city} - {order.postalCode}</p>
         <p>Phone: {order.phone}</p>
 
-        <h3>Items:</h3>
+      <h3>{t('items')}:</h3>
         {order.items.map((item, idx) => (
           <div key={idx} className="summary-item">
             <span>{item.productName} x {item.quantity}</span>
@@ -37,12 +39,12 @@ function OrderConfirmation() {
         ))}
 
         <div className="summary-total">
-          <strong>Total: ₹{order.totalAmount}</strong>
+         <strong>{t('total')}: ₹{order.totalAmount}</strong>
         </div>
 
         <div className="confirmation-actions">
-          <Link to="/" className="nav-btn">Continue Shopping</Link>
-          <Link to="/orders" className="nav-btn">View My Orders</Link>
+        <Link to="/" className="nav-btn">{t('continue_shopping')}</Link>
+         <Link to="/orders" className="nav-btn">{t('view_my_orders')}</Link>
         </div>
       </div>
     </div>

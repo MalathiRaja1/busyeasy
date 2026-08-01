@@ -12,10 +12,12 @@ import OrderConfirmation from './pages/OrderConfirmation';
 import Orders from './pages/Orders';
 import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
+import { useTranslation } from 'react-i18next';
 import './App.css';
 
 function Home({ products, error, reloadProducts, searchTerm }) {
   const location = useLocation();
+const { t } = useTranslation();
 
   useEffect(() => {
     reloadProducts();
@@ -33,7 +35,7 @@ function Home({ products, error, reloadProducts, searchTerm }) {
     <main className="product-grid-container">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       {searchTerm && filteredProducts.length === 0 ? (
-        <p className="no-results">No products found for "{searchTerm}"</p>
+      <p className="no-results">{t('no_results')} "{searchTerm}"</p>
       ) : (
         <div className="product-grid">
           {filteredProducts.map(p => (

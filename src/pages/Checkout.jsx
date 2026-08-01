@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { createOrder, createRazorpayOrder, verifyPayment } from '../services/api';
 import { clearCart } from '../redux/cartSlice';
+import { useTranslation } from 'react-i18next';
 
 function Checkout() {
   const cartItems = useSelector(state => state.cart.items);
@@ -21,21 +22,22 @@ function Checkout() {
   const [loading, setLoading] = useState(false);
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+const { t } = useTranslation();
+if (!token) {
+  return (
+    <div className="checkout-page">
+      <p>{t('please_login_checkout')} <Link to="/login">{t('login')}</Link></p>
+    </div>
+  );
+}
 
-  if (!token) {
-    return (
-      <div className="checkout-page">
-        <p>Please <Link to="/login">login</Link> to proceed with checkout.</p>
-      </div>
-    );
-  }
 
   if (cartItems.length === 0) {
     return (
-      <div className="checkout-page">
-        <p>Your cart is empty. <Link to="/">Continue Shopping</Link></p>
-      </div>
-    );
+    <div className="checkout-page">
+      <p>{t('cart_empty')}. <Link to="/">{t('continue_shopping')}</Link></p>
+    </div>
+  );
   }
 
   const handleChange = (e) => {
@@ -123,17 +125,17 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="checkout-page">
-      <h2>Checkout</h2>
+      <h2>{t('checkout')}</h2>
 
       <div className="checkout-container">
         <form className="checkout-form" onSubmit={handleSubmit}>
-          <h3>Shipping Address</h3>
+          <h3>{t('shipping_address')}</h3>
           {error && <p className="auth-error">{error}</p>}
 
           <input
             type="text"
             name="customerName"
-            placeholder="Full Name"
+           placeholder={t('full_name')}
             value={form.customerName}
             onChange={handleChange}
             required
@@ -141,7 +143,7 @@ const handleSubmit = async (e) => {
           <input
             type="text"
             name="address"
-            placeholder="Address"
+            placeholder={t('address')}
             value={form.address}
             onChange={handleChange}
             required
@@ -149,7 +151,7 @@ const handleSubmit = async (e) => {
           <input
             type="text"
             name="city"
-            placeholder="City"
+           placeholder={t('city')}
             value={form.city}
             onChange={handleChange}
             required
@@ -157,7 +159,7 @@ const handleSubmit = async (e) => {
           <input
             type="text"
             name="postalCode"
-            placeholder="Postal Code"
+            placeholder={t('postal_code')}
             value={form.postalCode}
             onChange={handleChange}
             required
@@ -165,19 +167,19 @@ const handleSubmit = async (e) => {
           <input
             type="tel"
             name="phone"
-            placeholder="Phone Number"
+           placeholder={t('phone')}
             value={form.phone}
             onChange={handleChange}
             required
           />
 
-          <button type="submit" disabled={loading}>
-            {loading ? 'Placing Order...' : `Place Order (₹${total})`}
-          </button>
+        <button type="submit" disabled={loading}>
+  {loading ? t('placing_order') : `${t('place_order')} (₹${total})`}
+</button>
         </form>
 
         <div className="order-summary">
-          <h3>Order Summary</h3>
+          <h3>{t('order_summary')}</h3>
           {cartItems.map(item => (
             <div key={item.id} className="summary-item">
               <span>{item.name} x {item.quantity}</span>
@@ -185,7 +187,7 @@ const handleSubmit = async (e) => {
             </div>
           ))}
           <div className="summary-total">
-            <strong>Total: ₹{total}</strong>
+            <strong>{t('total')}: ₹{total}</strong>
           </div>
         </div>
       </div>

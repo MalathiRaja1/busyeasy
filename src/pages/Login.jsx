@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/authApi';
 import { setAuth } from '../redux/authSlice';
+import { useTranslation } from 'react-i18next';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,24 +28,24 @@ function Login() {
   return (
     <div className="auth-page">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
+        <h2>{t('login_title')}</h2>
         {error && <p className="auth-error">{error}</p>}
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t('email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder={t('password')}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
-        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+        <button type="submit">{t('login')}</button>
+   <p>{t('dont_have_account')} <a href="/signup">{t('sign_up')}</a></p>
       </form>
     </div>
   );

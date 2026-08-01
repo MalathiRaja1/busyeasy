@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../services/authApi';
 import { setAuth } from '../redux/authSlice';
+import { useTranslation } from 'react-i18next';
 
 function Signup() {
   const [fullName, setFullName] = useState('');
@@ -11,6 +12,7 @@ function Signup() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,31 +29,31 @@ function Signup() {
   return (
     <div className="auth-page">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Create Account</h2>
+       <h2>{t('create_account')}</h2>
         {error && <p className="auth-error">{error}</p>}
         <input
           type="text"
-          placeholder="Full Name"
+         placeholder={t('full_name')}
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           required
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t('email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
           type="password"
-          placeholder="Password"
+         placeholder={t('password')}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Sign Up</button>
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <button type="submit">{t('sign_up')}</button>
+       <p>{t('already_have_account')} <a href="/login">{t('login')}</a></p>
       </form>
     </div>
   );

@@ -670,3 +670,11 @@ body {
     font-size: 18px;
   }
 }
+
+.lang-select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
