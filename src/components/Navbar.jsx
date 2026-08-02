@@ -42,7 +42,7 @@ function Navbar({ searchTerm, onSearchChange }) {
           value={i18n.language}
           className="lang-select"
         >
-          <option value="en">EN</option>
+          <option value="en">English</option>
           <option value="ta">தமிழ்</option>
         </select>
 
