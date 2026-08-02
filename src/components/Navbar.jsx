@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/authSlice';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState, useRef } from 'react';
 
 
 function Navbar({ searchTerm, onSearchChange }) {
@@ -12,6 +13,9 @@ function Navbar({ searchTerm, onSearchChange }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const wishlistItems = useSelector(state => state.wishlist.items);
+    const [bump, setBump] = useState(false);
+  const prevCount = useRef(totalCount);
+
 
   const handleLogout = () => {
     dispatch(logout());
@@ -21,6 +25,16 @@ function Navbar({ searchTerm, onSearchChange }) {
     i18n.changeLanguage(lang);
     localStorage.setItem('buyeasy_lang', lang);
   };
+
+  useEffect(() => {
+    if (totalCount > prevCount.current) {
+      setBump(true);
+      const timer = setTimeout(() => setBump(false), 350);
+      prevCount.current = totalCount;
+      return () => clearTimeout(timer);
+    }
+    prevCount.current = totalCount;
+  }, [totalCount]);
 
   return (
     <nav className="navbar">
@@ -57,10 +71,10 @@ function Navbar({ searchTerm, onSearchChange }) {
         ) : (
           <Link to="/login" className="nav-btn">{t('login')}</Link>
         )}
-        <Link to="/cart" className="nav-btn cart-btn">
-          🛒 {t('cart')}
-          <span className="cart-count">{totalCount}</span>
-        </Link>
+       <Link to="/cart" className="nav-btn cart-btn">
+        🛒 {t('cart')}
+        <span className={`cart-count ${bump ? 'bump' : ''}`}>{totalCount}</span>
+      </Link>
         <Link to="/orders" className="nav-btn">{t('my_orders')}</Link>
         <Link to="/wishlist" className="nav-btn cart-btn">
   ❤️ {t('wishlist')}

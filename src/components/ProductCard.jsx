@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +10,13 @@ function ProductCard({ product }) {
   const { t } = useTranslation();
   const wishlistItems = useSelector(state => state.wishlist.items);
   const isWishlisted = wishlistItems.some(item => item.id === product.id);
+  const [justAdded, setJustAdded] = useState(false);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     dispatch(addToCart(product));
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1200);
   };
 
   const handleWishlistToggle = (e) => {
@@ -45,11 +49,11 @@ function ProductCard({ product }) {
             {product.stock > 0 ? `${t('in_stock')} (${product.stock})` : t('out_of_stock')}
           </p>
           <button
-            className="add-to-cart-btn"
+            className={`add-to-cart-btn ${justAdded ? 'added' : ''}`}
             disabled={product.stock === 0}
             onClick={handleAddToCart}
           >
-            {t('add_to_cart')}
+            {justAdded ? `✓ ${t('added')}` : t('add_to_cart')}
           </button>
         </div>
       </div>
