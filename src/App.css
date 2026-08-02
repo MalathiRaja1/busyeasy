@@ -678,3 +678,28 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+
+.product-image-wrapper {
+  position: relative;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}

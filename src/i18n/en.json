@@ -81,5 +81,8 @@
   "pending": "Pending",
   "confirmed": "Confirmed",
   "shipped": "Shipped",
-  "delivered": "Delivered"
+  "delivered": "Delivered",
+  "wishlist": "Wishlist",
+"my_wishlist": "My Wishlist",
+"wishlist_empty": "Your wishlist is empty"
 }

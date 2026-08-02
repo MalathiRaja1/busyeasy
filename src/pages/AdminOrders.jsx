@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { getAllOrders, updateOrderStatus } from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 const STATUS_OPTIONS = ['Pending', 'Confirmed', 'Shipped', 'Delivered'];
 
@@ -9,6 +10,7 @@ function AdminOrders() {
   const { role } = useSelector(state => state.auth);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
+  const { t } = useTranslation();
 
   const loadOrders = () => {
     getAllOrders().then(res => setOrders(res.data)).catch(() => setError('Failed to load orders'));
@@ -33,7 +35,7 @@ function AdminOrders() {
 
   return (
     <div className="admin-page">
-      <h2>All Orders</h2>
+      <h2>{t('all_orders')}</h2>
       {error && <p className="auth-error">{error}</p>}
 
       {orders.length === 0 ? (
@@ -62,7 +64,7 @@ function AdminOrders() {
               </div>
             ))}
             <div className="summary-total">
-              <strong>Total: ₹{order.totalAmount}</strong>
+              <strong>{t('total')}: ₹{order.totalAmount}</strong>
             </div>
           </div>
         ))

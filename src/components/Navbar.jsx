@@ -11,6 +11,7 @@ function Navbar({ searchTerm, onSearchChange }) {
   const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const wishlistItems = useSelector(state => state.wishlist.items);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -61,6 +62,10 @@ function Navbar({ searchTerm, onSearchChange }) {
           <span className="cart-count">{totalCount}</span>
         </Link>
         <Link to="/orders" className="nav-btn">{t('my_orders')}</Link>
+        <Link to="/wishlist" className="nav-btn cart-btn">
+  ❤️ {t('wishlist')}
+  <span className="cart-count">{wishlistItems.length}</span>
+</Link>
       </div>
     </nav>
   );

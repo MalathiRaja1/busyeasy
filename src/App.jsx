@@ -13,6 +13,8 @@ import Orders from './pages/Orders';
 import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
 import { useTranslation } from 'react-i18next';
+import Wishlist from './pages/Wishlist';
+
 import './App.css';
 
 function Home({ products, error, reloadProducts, searchTerm }) {
@@ -77,6 +79,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Routes>
       </div>
     </BrowserRouter>
