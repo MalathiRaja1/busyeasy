@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../redux/authSlice';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState, useRef } from 'react';
+import toast from 'react-hot-toast';
 
 
 function Navbar({ searchTerm, onSearchChange }) {
@@ -17,10 +18,12 @@ function Navbar({ searchTerm, onSearchChange }) {
   const prevCount = useRef(totalCount);
 
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
-  };
+ const handleLogout = () => {
+  dispatch(logout());
+  toast(t('toast_logout'), { icon: '👋' });
+  navigate('/');
+};
+
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     localStorage.setItem('buyeasy_lang', lang);

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/authApi';
 import { setAuth } from '../redux/authSlice';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,17 +14,18 @@ function Login() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      const res = await loginUser({ email, password });
-      dispatch(setAuth(res.data));
-      navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  try {
+    const res = await loginUser({ email, password });
+    dispatch(setAuth(res.data));
+    toast.success(t('toast_login_success'));
+    navigate('/');
+  } catch (err) {
+    setError(err.response?.data?.message || 'Login failed');
+  }
+};
 
   return (
     <div className="auth-page">

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { addToCart } from '../redux/cartSlice';
 import { toggleWishlist } from '../redux/wishlistSlice';
+import toast from 'react-hot-toast';
+
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -12,17 +14,19 @@ function ProductCard({ product }) {
   const isWishlisted = wishlistItems.some(item => item.id === product.id);
   const [justAdded, setJustAdded] = useState(false);
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    dispatch(addToCart(product));
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1200);
-  };
+ const handleAddToCart = (e) => {
+  e.preventDefault();
+  dispatch(addToCart(product));
+  toast.success(`${product.name} ${t('toast_added_cart')}`);
+};
 
-  const handleWishlistToggle = (e) => {
-    e.preventDefault();
-    dispatch(toggleWishlist(product));
-  };
+const handleWishlistToggle = (e) => {
+  e.preventDefault();
+  dispatch(toggleWishlist(product));
+  toast(isWishlisted ? t('toast_removed_wishlist') : t('toast_added_wishlist'), {
+    icon: isWishlisted ? '💔' : '❤️',
+  });
+};
 
   return (
     <Link to={`/product/${product.id}`} className="product-card-link">

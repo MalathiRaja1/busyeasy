@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { registerUser } from '../services/authApi';
 import { setAuth } from '../redux/authSlice';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 function Signup() {
   const [fullName, setFullName] = useState('');
@@ -14,17 +15,18 @@ function Signup() {
   const dispatch = useDispatch();
 const { t } = useTranslation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      const res = await registerUser({ fullName, email, password });
-      dispatch(setAuth(res.data));
-      navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  try {
+    const res = await registerUser({ fullName, email, password });
+    dispatch(setAuth(res.data));
+    toast.success(t('toast_signup_success'));
+    navigate('/');
+  } catch (err) {
+    setError(err.response?.data?.message || 'Registration failed');
+  }
+};
 
   return (
     <div className="auth-page">

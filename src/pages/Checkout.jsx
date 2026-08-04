@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { createOrder, createRazorpayOrder, verifyPayment } from '../services/api';
 import { clearCart } from '../redux/cartSlice';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 function Checkout() {
   const cartItems = useSelector(state => state.cart.items);
@@ -88,9 +89,10 @@ const handleSubmit = async (e) => {
               })),
             };
 
-            const orderRes = await createOrder(orderData);
-            dispatch(clearCart());
-            navigate(`/order-confirmation/${orderRes.data.id}`);
+       const orderRes = await createOrder(orderData);
+dispatch(clearCart());
+toast.success(t('toast_order_success'));
+navigate(`/order-confirmation/${orderRes.data.id}`);
           } else {
             setError('Payment verification failed. Please try again.');
           }

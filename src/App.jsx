@@ -14,6 +14,7 @@ import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
 import { useTranslation } from 'react-i18next';
 import Wishlist from './pages/Wishlist';
+import { Toaster } from 'react-hot-toast';
 
 import './App.css';
 
@@ -68,6 +69,7 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         <Routes>
           <Route path="/" element={<Home products={products} error={error} reloadProducts={loadProducts} searchTerm={searchTerm} />} />
           <Route path="/cart" element={<Cart />} />

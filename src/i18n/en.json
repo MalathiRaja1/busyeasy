@@ -87,6 +87,15 @@
 "wishlist_empty": "Your wishlist is empty",
 "added": "Added!",
 
-"related_products": "You Might Also Like"
+"related_products": "You Might Also Like",
+"toast_added_cart": "added to cart",
+"toast_added_wishlist": "Added to wishlist",
+"toast_removed_wishlist": "Removed from wishlist",
+"toast_removed_cart": "Item removed",
+"toast_cart_cleared": "Cart cleared",
+"toast_login_success": "Welcome back!",
+"toast_signup_success": "Account created successfully!",
+"toast_order_success": "Order placed successfully!",
+"toast_logout": "Logged out"
 }
 

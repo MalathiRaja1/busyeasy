@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { removeFromCart, updateQuantity, clearCart } from '../redux/cartSlice';
+import toast from 'react-hot-toast';
 
 function Cart() {
   const { t } = useTranslation();
@@ -33,7 +34,10 @@ function Cart() {
               <button onClick={() => dispatch(updateQuantity({ id: item.id, quantity: Math.max(1, item.quantity - 1) }))}>-</button>
               <span>{item.quantity}</span>
               <button onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}>+</button>
-              <button className="remove-btn" onClick={() => dispatch(removeFromCart(item.id))}>{t('remove')}</button>
+<button className="remove-btn" onClick={() => {
+  dispatch(removeFromCart(item.id));
+  toast(t('toast_removed_cart'), { icon: '🗑️' });
+}}>{t('remove')}</button>
             </div>
           </div>
         </div>
@@ -42,7 +46,10 @@ function Cart() {
       <div className="cart-summary">
         <h3>{t('total')}: ₹{total}</h3>
         <button className="checkout-btn" onClick={() => navigate('/checkout')}>{t('proceed_to_checkout')}</button>
-        <button className="clear-cart-btn" onClick={() => dispatch(clearCart())}>{t('clear_cart')}</button>
+<button className="clear-cart-btn" onClick={() => {
+  dispatch(clearCart());
+  toast(t('toast_cart_cleared'), { icon: '🧹' });
+}}>{t('clear_cart')}</button>
       </div>
     </div>
   );

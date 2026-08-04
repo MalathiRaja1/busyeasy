@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getProductById, getProducts } from '../services/api';
 import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
+import toast from 'react-hot-toast';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -35,11 +36,12 @@ function ProductDetail() {
     }
   }, [product]);
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      dispatch(addToCart(product));
-    }
-  };
+const handleAddToCart = () => {
+  for (let i = 0; i < quantity; i++) {
+    dispatch(addToCart(product));
+  }
+  toast.success(`${product.name} ${t('toast_added_cart')}`);
+};
 
   if (error) return <p style={{ color: 'red', padding: '20px' }}>Error: {error}</p>;
   if (!product) return <p style={{ padding: '20px' }}>Loading...</p>;
