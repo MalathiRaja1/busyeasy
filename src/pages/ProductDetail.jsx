@@ -1,21 +1,39 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getProductById } from '../services/api';
+import { useTranslation } from 'react-i18next';
+import { getProductById, getProducts } from '../services/api';
 import { addToCart } from '../redux/cartSlice';
+import ProductCard from '../components/ProductCard';
 
 function ProductDetail() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setProduct(null); // reset while loading new product
     getProductById(id)
       .then(res => setProduct(res.data))
       .catch(err => setError(err.message));
   }, [id]);
+
+  useEffect(() => {
+    if (product) {
+      getProducts()
+        .then(res => {
+          const related = res.data.filter(
+            p => p.category === product.category && p.id !== product.id
+          );
+          setRelatedProducts(related.slice(0, 4)); // show up to 4
+        })
+        .catch(() => {});
+    }
+  }, [product]);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -28,7 +46,7 @@ function ProductDetail() {
 
   return (
     <div className="product-detail-page">
-      <Link to="/" className="back-link">← Back to Products</Link>
+      <Link to="/" className="back-link">← {t('back_to_products')}</Link>
 
       <div className="product-detail-container">
         <div className="product-detail-image">
@@ -41,12 +59,12 @@ function ProductDetail() {
           <p className="product-detail-price">₹{product.price}</p>
           <p className="product-detail-description">{product.description}</p>
           <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
-            {product.stock > 0 ? `In Stock (${product.stock} available)` : "Out of Stock"}
+            {product.stock > 0 ? `${t('in_stock')} (${product.stock} ${t('available')})` : t('out_of_stock')}
           </p>
 
           {product.stock > 0 && (
             <div className="quantity-selector">
-              <label>Quantity:</label>
+              <label>{t('quantity')}:</label>
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
               <span>{quantity}</span>
               <button onClick={() => setQuantity(q => Math.min(product.stock, q + 1))}>+</button>
@@ -58,10 +76,21 @@ function ProductDetail() {
             disabled={product.stock === 0}
             onClick={handleAddToCart}
           >
-            Add to Cart
+            {t('add_to_cart')}
           </button>
         </div>
       </div>
+
+      {relatedProducts.length > 0 && (
+        <div className="related-products-section">
+          <h2>{t('related_products')}</h2>
+          <div className="product-grid">
+            {relatedProducts.map(p => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

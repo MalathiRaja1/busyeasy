@@ -801,3 +801,12 @@ body {
   color: #388e3c;
   font-weight: bold;
 }
+
+.related-products-section {
+  margin-top: 40px;
+}
+
+.related-products-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
