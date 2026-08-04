@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getMyOrders } from '../services/api';
 import { useTranslation } from 'react-i18next';
+import OrderTimeline from '../components/OrderTimeline';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -32,10 +33,10 @@ if (!token) {
         orders.map(order => (
           <div key={order.id} className="order-card">
             <div className="order-card-header">
-              <span>Order #{order.id}</span>
-              <span className="order-status">{order.status}</span>
-            </div>
-            <p>{new Date(order.orderDate).toLocaleDateString()}</p>
+  <span>{t('order_id')} #{order.id}</span>
+</div>
+<OrderTimeline currentStatus={order.status} />
+<p>{new Date(order.orderDate).toLocaleDateString()}</p>
             {order.items.map((item, idx) => (
               <div key={idx} className="summary-item">
                 <span>{item.productName} x {item.quantity}</span>

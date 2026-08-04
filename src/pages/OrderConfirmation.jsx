@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getOrderById } from '../services/api';
 import { useTranslation } from 'react-i18next';
+import OrderTimeline from '../components/OrderTimeline';
+
 
 function OrderConfirmation() {
   const { id } = useParams();
@@ -23,7 +25,8 @@ const { t } = useTranslation();
       <div className="confirmation-box">
        <h2>✅ {t('order_placed')}</h2>
        <p>{t('order_id')}: #{order.id}</p>
-       <p>{t('status')}: {order.status}</p>
+       //<p>{t('status')}: {order.status}</p>
+       <OrderTimeline currentStatus={order.status} />
 
         <h3>{t('shipping_to')}:</h3>
         <p>{order.customerName}</p>
