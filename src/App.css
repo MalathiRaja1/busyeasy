@@ -891,3 +891,31 @@ body {
   color: #333;
   margin-top: 6px;
 }
+
+.coupon-section {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.coupon-section input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.coupon-section button {
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.coupon-success {
+  color: #388e3c;
+  font-weight: bold;
+  font-size: 14px;
+}

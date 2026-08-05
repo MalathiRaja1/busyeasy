@@ -55,7 +55,7 @@ const handleAddToCart = () => {
         <div className="product-detail-image">
           <img src={product.imageUrl || "https://via.placeholder.com/400"} alt={product.name} />
         </div>
-
+<ProductReviews productId={product.id} />
         <div className="product-detail-info">
           <span className="product-category">{product.category}</span>
           <h1>{product.name}</h1>
@@ -94,7 +94,7 @@ const handleAddToCart = () => {
           </div>
         </div>
       )}
-      <ProductReviews productId={product.id} />
+      
     </div>
     
   );

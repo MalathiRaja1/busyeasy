@@ -5,13 +5,33 @@ import { createOrder, createRazorpayOrder, verifyPayment } from '../services/api
 import { clearCart } from '../redux/cartSlice';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { validateCoupon } from '../services/api';
+import toast from 'react-hot-toast';
+
 
 function Checkout() {
   const cartItems = useSelector(state => state.cart.items);
   const { token, fullName } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [couponCode, setCouponCode] = useState('');
+const [couponApplied, setCouponApplied] = useState(null);
+const [couponError, setCouponError] = useState('');
 
+
+const handleApplyCoupon = async () => {
+  setCouponError('');
+  try {
+    const res = await validateCoupon({ code: couponCode, orderAmount: total });
+    setCouponApplied(res.data);
+    toast.success(`${t('coupon_applied')}: -₹${res.data.discountAmount}`);
+  } catch (err) {
+    setCouponError(err.response?.data?.message || t('invalid_coupon'));
+    setCouponApplied(null);
+  }
+};
+
+const finalTotal = couponApplied ? couponApplied.finalAmount : total;
   const [form, setForm] = useState({
     customerName: fullName || '',
     address: '',
@@ -192,6 +212,22 @@ navigate(`/order-confirmation/${orderRes.data.id}`);
             <strong>{t('total')}: ₹{total}</strong>
           </div>
         </div>
+        <div className="coupon-section">
+  <input
+    type="text"
+    placeholder={t('enter_coupon')}
+    value={couponCode}
+    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+    disabled={!!couponApplied}
+  />
+  <button type="button" onClick={handleApplyCoupon} disabled={!!couponApplied || !couponCode}>
+    {t('apply')}
+  </button>
+</div>
+{couponError && <p className="auth-error">{couponError}</p>}
+{couponApplied && (
+  <p className="coupon-success">✓ {couponApplied.code} — {t('you_saved')} ₹{couponApplied.discountAmount}</p>
+)}
       </div>
     </div>
   );

@@ -33,5 +33,9 @@ export const verifyPayment = (data) => axiosInstance.post("/payments/verify", da
 export const getProductReviews = (productId) => axiosInstance.get(`/reviews/product/${productId}`);
 export const createReview = (data) => axiosInstance.post("/reviews", data);
 export const deleteReview = (id) => axiosInstance.delete(`/reviews/${id}`);
+export const validateCoupon = (data) => axiosInstance.post("/coupons/validate", data);
+export const getCoupons = () => axiosInstance.get("/coupons");
+export const createCoupon = (data) => axiosInstance.post("/coupons", data);
+export const deleteCoupon = (id) => axiosInstance.delete(`/coupons/${id}`);
 
 export default axiosInstance;
