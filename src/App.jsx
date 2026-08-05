@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Wishlist from './pages/Wishlist';
 import { Toaster } from 'react-hot-toast';
 import AdminCoupons from './pages/AdminCoupons';
+import AdminDashboard from './pages/AdminDashboard';
 
 import './App.css';
 
@@ -84,6 +85,7 @@ function App() {
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/admin/coupons" element={<AdminCoupons />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </div>
     </BrowserRouter>

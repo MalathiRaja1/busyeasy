@@ -70,6 +70,7 @@ function Navbar({ searchTerm, onSearchChange }) {
             {role === 'Admin' && <Link to="/admin/products" className="nav-btn">{t('admin_products')}</Link>}
             {role === 'Admin' && <Link to="/admin/orders" className="nav-btn">{t('admin_orders')}</Link>}
             {role === 'Admin' && <Link to="/admin/coupons" className="nav-btn">Coupons</Link>}
+            {role === 'Admin' && <Link to="/admin/dashboard" className="nav-btn">Dashboard</Link>}
             <button className="nav-btn" onClick={handleLogout}>{t('logout')}</button>
           </>
         ) : (
