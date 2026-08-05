@@ -30,5 +30,8 @@ export const getAllOrders = () => axiosInstance.get("/orders/all");
 export const updateOrderStatus = (id, status) => axiosInstance.put(`/orders/${id}/status`, { status });
 export const createRazorpayOrder = (amount) => axiosInstance.post("/payments/create-order", { amount });
 export const verifyPayment = (data) => axiosInstance.post("/payments/verify", data);
+export const getProductReviews = (productId) => axiosInstance.get(`/reviews/product/${productId}`);
+export const createReview = (data) => axiosInstance.post("/reviews", data);
+export const deleteReview = (id) => axiosInstance.delete(`/reviews/${id}`);
 
 export default axiosInstance;

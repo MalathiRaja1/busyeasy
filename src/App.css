@@ -810,3 +810,84 @@ body {
   font-size: 20px;
   margin-bottom: 16px;
 }
+
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 20px;
+  color: #ddd;
+}
+
+.star.filled {
+  color: #ff9f00;
+}
+
+.star.interactive {
+  cursor: pointer;
+}
+
+.reviews-section {
+  margin-top: 40px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.review-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.review-form button {
+  align-self: flex-start;
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.review-login-hint {
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.review-item {
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #999;
+  margin: 4px 0;
+}
+
+.review-comment {
+  color: #333;
+  margin-top: 6px;
+}

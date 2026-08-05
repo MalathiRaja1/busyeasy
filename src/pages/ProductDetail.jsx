@@ -6,6 +6,7 @@ import { getProductById, getProducts } from '../services/api';
 import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
 import toast from 'react-hot-toast';
+import ProductReviews from '../components/ProductReviews';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -93,7 +94,9 @@ const handleAddToCart = () => {
           </div>
         </div>
       )}
+      <ProductReviews productId={product.id} />
     </div>
+    
   );
 }
 
