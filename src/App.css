@@ -919,3 +919,43 @@ body {
   font-weight: bold;
   font-size: 14px;
 }
+
+.saved-addresses {
+  margin-bottom: 20px;
+}
+
+.address-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.address-card.selected {
+  border-color: #2874f0;
+  background: #f0f7ff;
+}
+
+.default-tag {
+  background: #388e3c;
+  color: white;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+
+.new-address-link {
+  color: #2874f0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.save-address-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}

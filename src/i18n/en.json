@@ -113,6 +113,11 @@
 "apply": "Apply",
 "coupon_applied": "Coupon applied",
 "invalid_coupon": "Invalid coupon code",
-"you_saved": "You saved"
+"you_saved": "You saved",
+
+"saved_addresses": "Saved Addresses",
+"default": "Default",
+"use_new_address": "Use a new address",
+"save_this_address": "Save this address for next time"
 }
 

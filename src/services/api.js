@@ -37,5 +37,8 @@ export const validateCoupon = (data) => axiosInstance.post("/coupons/validate", 
 export const getCoupons = () => axiosInstance.get("/coupons");
 export const createCoupon = (data) => axiosInstance.post("/coupons", data);
 export const deleteCoupon = (id) => axiosInstance.delete(`/coupons/${id}`);
+export const getMyAddresses = () => axiosInstance.get("/addresses");
+export const createAddress = (data) => axiosInstance.post("/addresses", data);
+export const deleteAddress = (id) => axiosInstance.delete(`/addresses/${id}`);
 
 export default axiosInstance;
