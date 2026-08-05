@@ -4,7 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { createOrder, createRazorpayOrder, verifyPayment } from '../services/api';
 import { clearCart } from '../redux/cartSlice';
 import { useTranslation } from 'react-i18next';
-import toast from 'react-hot-toast';
 import { validateCoupon } from '../services/api';
 import toast from 'react-hot-toast';
 
