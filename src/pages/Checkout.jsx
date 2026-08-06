@@ -22,6 +22,7 @@ function Checkout() {
 
   const [form, setForm] = useState({
     customerName: fullName || '',
+     email: '',
     address: '',
     city: '',
     postalCode: '',
@@ -57,6 +58,11 @@ function Checkout() {
           });
         }
       }).catch(() => {});
+      {!token && (
+  <p className="guest-checkout-hint">
+    {t('guest_checkout_hint')} <Link to="/signup">{t('sign_up')}</Link>
+  </p>
+)}
     }
   }, [token]);
 
@@ -114,6 +120,7 @@ function Checkout() {
             if (verifyRes.data.success) {
               const orderData = {
                 customerName: form.customerName,
+                email: form.email,
                 address: form.address,
                 city: form.city,
                 postalCode: form.postalCode,
@@ -176,13 +183,13 @@ function Checkout() {
     }
   };
 
-  if (!token) {
-    return (
-      <div className="checkout-page">
-        <p>{t('please_login_checkout')} <Link to="/login">{t('login')}</Link></p>
-      </div>
-    );
-  }
+  // if (!token) {
+  //   return (
+  //     <div className="checkout-page">
+  //       <p>{t('please_login_checkout')} <Link to="/login">{t('login')}</Link></p>
+  //     </div>
+  //   );
+  // }
 
   if (cartItems.length === 0) {
     return (
@@ -201,7 +208,7 @@ function Checkout() {
           <h3>{t('shipping_address')}</h3>
           {error && <p className="auth-error">{error}</p>}
 
-          {savedAddresses.length > 0 && (
+          {token && savedAddresses.length > 0 && (
             <div className="saved-addresses">
               <h4>{t('saved_addresses')}</h4>
               {savedAddresses.map(addr => (
@@ -235,6 +242,14 @@ function Checkout() {
             onChange={handleChange}
             required
           />
+          <input
+  type="email"
+  name="email"
+  placeholder={t('email')}
+  value={form.email}
+  onChange={handleChange}
+  required
+/>
           <input
             type="text"
             name="address"

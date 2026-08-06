@@ -118,6 +118,8 @@
 "saved_addresses": "Saved Addresses",
 "default": "Default",
 "use_new_address": "Use a new address",
-"save_this_address": "Save this address for next time"
+"save_this_address": "Save this address for next time",
+
+"guest_checkout_hint": "Checking out as guest — create an account to track orders later."
 }
 

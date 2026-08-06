@@ -54,38 +54,45 @@ function Navbar({ searchTerm, onSearchChange }) {
         <button className="search-btn">🔍</button>
       </div>
 
-      <div className="navbar-actions">
-        <select
-          onChange={(e) => changeLanguage(e.target.value)}
-          value={i18n.language}
-          className="lang-select"
-        >
-          <option value="en">English</option>
-          <option value="ta">தமிழ்</option>
-        </select>
+   <div className="navbar-actions">
+  <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="lang-select">
+    <option value="en">English</option>
+    <option value="ta">தமிழ்</option>
+  </select>
 
-        {token ? (
-          <>
-            <span className="nav-user">{t('hi')}, {fullName}</span>
-            {role === 'Admin' && <Link to="/admin/products" className="nav-btn">{t('admin_products')}</Link>}
-            {role === 'Admin' && <Link to="/admin/orders" className="nav-btn">{t('admin_orders')}</Link>}
-            {role === 'Admin' && <Link to="/admin/coupons" className="nav-btn">Coupons</Link>}
-            {role === 'Admin' && <Link to="/admin/dashboard" className="nav-btn">Dashboard</Link>}
-            <button className="nav-btn" onClick={handleLogout}>{t('logout')}</button>
-          </>
-        ) : (
-          <Link to="/login" className="nav-btn">{t('login')}</Link>
-        )}
-       <Link to="/cart" className="nav-btn cart-btn">
-        🛒 {t('cart')}
-        <span className={`cart-count ${bump ? 'bump' : ''}`}>{totalCount}</span>
-      </Link>
-        <Link to="/orders" className="nav-btn">{t('my_orders')}</Link>
-        <Link to="/wishlist" className="nav-btn cart-btn">
-  ❤️ {t('wishlist')}
-  <span className="cart-count">{wishlistItems.length}</span>
-</Link>
-      </div>
+  {token ? (
+    <>
+      <span className="nav-user">{t('hi')}, {fullName}</span>
+
+      {/* ← ADD THE ADMIN DROPDOWN BLOCK HERE, replacing the old individual links */}
+      {role === 'Admin' && (
+        <div className="admin-dropdown">
+          <button className="nav-btn">Admin ▾</button>
+          <div className="admin-dropdown-menu">
+            <Link to="/admin/dashboard">Dashboard</Link>
+            <Link to="/admin/products">Products</Link>
+            <Link to="/admin/orders">Orders</Link>
+            <Link to="/admin/coupons">Coupons</Link>
+          </div>
+        </div>
+      )}
+
+      <button className="nav-btn" onClick={handleLogout}>{t('logout')}</button>
+    </>
+  ) : (
+    <Link to="/login" className="nav-btn">{t('login')}</Link>
+  )}
+
+  <Link to="/cart" className="nav-btn cart-btn">
+    🛒 {t('cart')}
+    <span className="cart-count">{totalCount}</span>
+  </Link>
+  <Link to="/orders" className="nav-btn">{t('my_orders')}</Link>
+  <Link to="/wishlist" className="nav-btn cart-btn">
+    ❤️ {t('wishlist')}
+    <span className="cart-count">{wishlistItems.length}</span>
+  </Link>
+</div>
     </nav>
   );
 }
