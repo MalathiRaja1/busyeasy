@@ -1267,3 +1267,49 @@ body {
 .admin-table td:last-child {
   min-width: 260px;
 }
+
+.variant-manager {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.variant-manager-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.variant-manager-form input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.variant-manager-form button {
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.variant-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.variant-table th, .variant-table td {
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 13px;
+}
+
+.variant-tags {
+  font-size: 12px;
+  color: #666;
+}

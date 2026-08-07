@@ -29,6 +29,13 @@ function Cart() {
           <img src={item.imageUrl} alt={item.name} className="cart-item-image" />
           <div className="cart-item-info">
             <h4>{item.name}</h4>
+              {(item.size || item.color) && (
+    <p className="variant-tags">
+      {item.size && <span>{t('size')}: {item.size}</span>}
+      {item.size && item.color && ' | '}
+      {item.color && <span>{t('color')}: {item.color}</span>}
+    </p>
+  )}
             <p>₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}</p>
             <div className="cart-item-controls">
               <button onClick={() => dispatch(updateQuantity({ id: item.id, quantity: Math.max(1, item.quantity - 1) }))}>-</button>

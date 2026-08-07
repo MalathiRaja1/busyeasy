@@ -127,12 +127,12 @@ function Checkout() {
                 phone: form.phone,
                 totalAmount: finalTotal,
                 couponCode: couponApplied?.code || null,
-                items: cartItems.map(item => ({
-                  productId: item.id,
-                  productName: item.name,
-                  price: item.price,
-                  quantity: item.quantity,
-                })),
+               items: cartItems.map(item => ({
+  productId: item.productId || item.id, // use real productId if variant, else id
+  productName: item.name + (item.size ? ` (${item.size}${item.color ? ', ' + item.color : ''})` : item.color ? ` (${item.color})` : ''),
+  price: item.price,
+  quantity: item.quantity,
+})),
               };
 
               if (saveNewAddress && !selectedAddressId) {
