@@ -1144,3 +1144,68 @@ body {
   color: #2874f0;
   font-weight: bold;
 }
+
+.variant-toggle-btn {
+  background: #6a1b9a;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.variant-row {
+  background: #f9f9f9;
+}
+
+.variant-management {
+  padding: 16px;
+}
+
+.variant-management h4 {
+  margin-bottom: 12px;
+}
+
+.variant-table {
+  width: 100%;
+  margin-bottom: 16px;
+  border-collapse: collapse;
+}
+
+.variant-table th, .variant-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+}
+
+.no-variants-text {
+  color: #888;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.variant-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.variant-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 120px;
+}
+
+.add-variant-btn {
+  background: #388e3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
