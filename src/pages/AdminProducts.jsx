@@ -186,10 +186,10 @@ const handleDeleteVariant = async (variantId, productId) => {
             <th>{t('actions')}</th>
           </tr>
         </thead>
- <tbody>
+<tbody>
   {products.map(p => (
-    <>
-      <tr key={p.id} className={p.stock < 5 ? 'low-stock-row' : ''}>
+    <React.Fragment key={p.id}>
+      <tr className={p.stock < 5 ? 'low-stock-row' : ''}>
         <td><img src={p.imageUrl} alt={p.name} className="admin-table-img" /></td>
         <td>{p.name}</td>
         <td>{p.category}</td>
@@ -199,13 +199,13 @@ const handleDeleteVariant = async (variantId, productId) => {
           {p.stock < 5 && p.stock > 0 && <span className="low-stock-badge"> ⚠ Low</span>}
           {p.stock === 0 && <span className="out-stock-badge"> ✕ Out</span>}
         </td>
-        <td>
-          <button onClick={() => handleEdit(p)} className="edit-btn">{t('edit')}</button>
-          <button onClick={() => handleDelete(p.id)} className="delete-btn">{t('delete')}</button>
-          <button onClick={() => handleToggleVariants(p.id)} className="variant-toggle-btn">
-            {expandedProductId === p.id ? 'Hide Variants' : 'Variants'}
-          </button>
-        </td>
+<td>
+  <div className="action-buttons">
+    <button className="btn-edit" onClick={() => handleEdit(p)}>{t('edit')}</button>
+    <button className="btn-delete" onClick={() => handleDelete(p.id)}>{t('delete')}</button>
+    <button className="btn-variants" onClick={() => handleToggleVariants(p.id)}>{t('variants')}</button>
+  </div>
+</td>
       </tr>
 
       {expandedProductId === p.id && (
@@ -265,7 +265,7 @@ const handleDeleteVariant = async (variantId, productId) => {
           </td>
         </tr>
       )}
-    </>
+    </React.Fragment>
   ))}
 </tbody>
       </table>

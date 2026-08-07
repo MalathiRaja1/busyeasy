@@ -1209,3 +1209,61 @@ body {
   cursor: pointer;
   white-space: nowrap;
 }
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;      /* keeps them on one line */
+  align-items: center;
+}
+
+.action-buttons button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;    /* prevents text wrap inside button */
+}
+
+.btn-edit {
+  background-color: #2563eb;   /* blue */
+}
+
+.btn-delete {
+  background-color: #dc2626;   /* red */
+}
+
+.btn-variants {
+  background-color: #7c3aed;   /* purple */
+}
+
+.actions-column {
+  min-width: 260px;   /* adjust based on your table */
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.action-buttons button {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-edit { background-color: #2563eb; }
+.btn-delete { background-color: #dc2626; }
+.btn-variants { background-color: #7c3aed; }
+
+.admin-table th:last-child,
+.admin-table td:last-child {
+  min-width: 260px;
+}
