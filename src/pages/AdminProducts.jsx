@@ -6,6 +6,7 @@ import { getProducts, createProduct, updateProduct, deleteProduct } from '../ser
 import { getProductVariants, createVariant, deleteVariant } from '../services/api';
 import toast from 'react-hot-toast';
 import React from 'react';
+import VariantManager from '../components/VariantManager';
 
 const emptyForm = {
   name: '', description: '', price: '', imageUrl: '', additionalImageUrls: '', category: '', stock: ''
@@ -21,11 +22,25 @@ function AdminProducts() {
   const [expandedProductId, setExpandedProductId] = useState(null);
 const [variants, setVariants] = useState({});
 const [variantForm, setVariantForm] = useState({ size: '', color: '', stock: '' });
+const [variantCounts, setVariantCounts] = useState({});
 
   const loadProducts = () => {
     getProducts().then(res => setProducts(res.data)).catch(() => {});
   };
-
+const loadVariantCounts = async (productList) => {
+  const counts = {};
+  await Promise.all(
+    productList.map(async (p) => {
+      try {
+        const res = await getProductVariants(p.id);
+        counts[p.id] = res.data.length;
+      } catch {
+        counts[p.id] = 0;
+      }
+    })
+  );
+  setVariantCounts(counts);
+};
   useEffect(() => {
     loadProducts();
   }, []);
@@ -176,96 +191,41 @@ const handleDeleteVariant = async (variantId, productId) => {
 
       <h3>{t('all_products')}</h3>
       <table className="admin-table">
-        <thead>
-          <tr>
-            <th>{t('image')}</th>
-            <th>{t('name')}</th>
-            <th>{t('category')}</th>
-            <th>{t('price')}</th>
-            <th>{t('stock')}</th>
-            <th>{t('actions')}</th>
-          </tr>
-        </thead>
+       <thead>
+  <tr>
+    <th>{t('image')}</th>
+    <th>{t('name')}</th>
+    <th>{t('category')}</th>
+    <th>{t('price')}</th>
+    <th>{t('stock')}</th>
+    <th>Variants</th>
+    <th>{t('actions')}</th>
+  </tr>
+</thead>
 <tbody>
   {products.map(p => (
-    <React.Fragment key={p.id}>
-      <tr className={p.stock < 5 ? 'low-stock-row' : ''}>
-        <td><img src={p.imageUrl} alt={p.name} className="admin-table-img" /></td>
-        <td>{p.name}</td>
-        <td>{p.category}</td>
-        <td>₹{p.price}</td>
-        <td>
-          {p.stock}
-          {p.stock < 5 && p.stock > 0 && <span className="low-stock-badge"> ⚠ Low</span>}
-          {p.stock === 0 && <span className="out-stock-badge"> ✕ Out</span>}
-        </td>
-<td>
-  <div className="action-buttons">
-    <button className="btn-edit" onClick={() => handleEdit(p)}>{t('edit')}</button>
-    <button className="btn-delete" onClick={() => handleDelete(p.id)}>{t('delete')}</button>
-    <button className="btn-variants" onClick={() => handleToggleVariants(p.id)}>{t('variants')}</button>
-  </div>
-</td>
-      </tr>
-
-      {expandedProductId === p.id && (
-        <tr className="variant-row">
-          <td colSpan="6">
-            <div className="variant-management">
-              <h4>Variants for {p.name}</h4>
-
-              {variants[p.id]?.length > 0 ? (
-                <table className="variant-table">
-                  <thead>
-                    <tr><th>Size</th><th>Color</th><th>Stock</th><th>Action</th></tr>
-                  </thead>
-                  <tbody>
-                    {variants[p.id].map(v => (
-                      <tr key={v.id}>
-                        <td>{v.size || '-'}</td>
-                        <td>{v.color || '-'}</td>
-                        <td>{v.stock}</td>
-                        <td>
-                          <button onClick={() => handleDeleteVariant(v.id, p.id)} className="delete-btn">
-                            Remove
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <p className="no-variants-text">No variants yet.</p>
-              )}
-
-              <div className="variant-form">
-                <input
-                  type="text"
-                  placeholder="Size (e.g. M, L, XL)"
-                  value={variantForm.size}
-                  onChange={(e) => setVariantForm({ ...variantForm, size: e.target.value })}
-                />
-                <input
-                  type="text"
-                  placeholder="Color (e.g. Red, Blue)"
-                  value={variantForm.color}
-                  onChange={(e) => setVariantForm({ ...variantForm, color: e.target.value })}
-                />
-                <input
-                  type="number"
-                  placeholder="Stock"
-                  value={variantForm.stock}
-                  onChange={(e) => setVariantForm({ ...variantForm, stock: e.target.value })}
-                />
-                <button onClick={() => handleAddVariant(p.id)} className="add-variant-btn">
-                  + Add Variant
-                </button>
-              </div>
-            </div>
-          </td>
-        </tr>
-      )}
-    </React.Fragment>
+    <tr key={p.id} className={p.stock < 5 ? 'low-stock-row' : ''}>
+      <td><img src={p.imageUrl} alt={p.name} className="admin-table-img" /></td>
+      <td>{p.name}</td>
+      <td>{p.category}</td>
+      <td>₹{p.price}</td>
+      <td>
+        {p.stock}
+        {p.stock < 5 && p.stock > 0 && <span className="low-stock-badge"> ⚠ Low</span>}
+        {p.stock === 0 && <span className="out-stock-badge"> ✕ Out</span>}
+      </td>
+      <td>
+        {variantCounts[p.id] > 0 ? (
+          <span className="variant-count-badge">{variantCounts[p.id]} variants</span>
+        ) : (
+          <span className="no-variant-text">None</span>
+        )}
+      </td>
+      <td>
+        <button onClick={() => handleEdit(p)} className="edit-btn">{t('edit')}</button>
+        <button onClick={() => handleDelete(p.id)} className="delete-btn">{t('delete')}</button>
+      </td>
+    </tr>
   ))}
 </tbody>
       </table>

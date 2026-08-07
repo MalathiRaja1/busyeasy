@@ -1313,3 +1313,17 @@ body {
   font-size: 12px;
   color: #666;
 }
+
+.variant-count-badge {
+  background: #e3f2fd;
+  color: #2874f0;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.no-variant-text {
+  color: #aaa;
+  font-size: 12px;
+}
