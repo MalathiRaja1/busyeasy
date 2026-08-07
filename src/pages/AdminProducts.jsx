@@ -187,11 +187,12 @@ const handleDeleteVariant = async (variantId, productId) => {
         <input type="number" name="stock" placeholder={t('stock')} value={form.stock} onChange={handleChange} required />
 
       <div className="admin-form-actions">
-  <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
-  {editingId && <button type="button" onClick={handleCancelEdit} className="cancel-btn">Cancel</button>}
-</div>
-{editingId && <VariantManager productId={editingId} onVariantChange={() => loadVariantCounts(products)} />}
+        <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
+        {editingId && <button type="button" onClick={handleCancelEdit} className="cancel-btn">Cancel</button>}
+      </div>
       </form>
+
+      {editingId && <VariantManager productId={editingId} onVariantChange={() => loadVariantCounts(products)} />}
 
       <h3>{t('all_products')}</h3>
       <table className="admin-table">
