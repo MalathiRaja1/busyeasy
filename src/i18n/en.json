@@ -124,6 +124,12 @@
 
 "size": "Size",
 "color": "Color",
-"select_variant_first": "Please select options"
+"select_variant_first": "Please select options",
+
+"all_categories": "All",
+"fashion": "Fashion",
+"electronics": "Electronics",
+"home_kitchen": "Home & Kitchen",
+"sports_fitness": "Sports"
 }
 

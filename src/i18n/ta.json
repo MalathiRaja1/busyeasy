@@ -126,5 +126,11 @@
 
 "size": "அளவு",
 "color": "நிறம்",
-"select_variant_first": "விருப்பங்களைத் தேர்ந்தெடுக்கவும்"
+"select_variant_first": "விருப்பங்களைத் தேர்ந்தெடுக்கவும்",
+
+"all_categories": "அனைத்தும்",
+"fashion": "ஃபேஷன்",
+"electronics": "மின்னணுவியல்",
+"home_kitchen": "வீடு & சமையலறை",
+"sports_fitness": "விளையாட்டு"
 }
