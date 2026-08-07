@@ -24,9 +24,12 @@ const [variants, setVariants] = useState({});
 const [variantForm, setVariantForm] = useState({ size: '', color: '', stock: '' });
 const [variantCounts, setVariantCounts] = useState({});
 
-  const loadProducts = () => {
-    getProducts().then(res => setProducts(res.data)).catch(() => {});
-  };
+ const loadProducts = () => {
+  getProducts().then(res => {
+    setProducts(res.data);
+    loadVariantCounts(res.data);
+  }).catch(() => {});
+};
 const loadVariantCounts = async (productList) => {
   const counts = {};
   await Promise.all(
@@ -183,10 +186,11 @@ const handleDeleteVariant = async (variantId, productId) => {
         <input type="text" name="category" placeholder={t('category')} value={form.category} onChange={handleChange} required />
         <input type="number" name="stock" placeholder={t('stock')} value={form.stock} onChange={handleChange} required />
 
-        <div className="admin-form-actions">
-    <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
-    {editingId && <button type="button" onClick={handleCancelEdit} className="cancel-btn">Cancel</button>}
-  </div>
+      <div className="admin-form-actions">
+  <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
+  {editingId && <button type="button" onClick={handleCancelEdit} className="cancel-btn">Cancel</button>}
+</div>
+{editingId && <VariantManager productId={editingId} onVariantChange={() => loadVariantCounts(products)} />}
       </form>
 
       <h3>{t('all_products')}</h3>

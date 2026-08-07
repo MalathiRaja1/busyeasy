@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getProductVariants, createVariant, deleteVariant } from '../services/api';
 
-function VariantManager({ productId }) {
+function VariantManager({ productId,onVariantChange  }) {
   const [variants, setVariants] = useState([]);
   const [size, setSize] = useState('');
   const [color, setColor] = useState('');
   const [stock, setStock] = useState('');
+
 
   const loadVariants = () => {
     getProductVariants(productId).then(res => setVariants(res.data)).catch(() => {});
@@ -23,11 +24,13 @@ function VariantManager({ productId }) {
     setColor('');
     setStock('');
     loadVariants();
+    if (onVariantChange) onVariantChange();
   };
 
   const handleDelete = async (id) => {
     await deleteVariant(id);
     loadVariants();
+    if (onVariantChange) onVariantChange();
   };
 
   return (
