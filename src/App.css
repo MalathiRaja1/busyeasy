@@ -1111,3 +1111,36 @@ body {
   text-decoration: underline;
   color: #1d4ed8;      /* slightly darker blue on hover */
 }
+
+.variant-selector {
+  margin: 14px 0;
+}
+
+.variant-selector label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.variant-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.variant-btn {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.variant-btn.selected {
+  border-color: #2874f0;
+  background: #f0f7ff;
+  color: #2874f0;
+  font-weight: bold;
+}

@@ -8,6 +8,7 @@ import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
 import ProductReviews from '../components/ProductReviews';
 
+
 function ProductDetail() {
   const { id } = useParams();
   const { t } = useTranslation();
@@ -16,6 +17,8 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [variants, setVariants] = useState([]);
+const [selectedVariant, setSelectedVariant] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,6 +30,15 @@ function ProductDetail() {
       })
       .catch(err => setError(err.message));
   }, [id]);
+
+  useEffect(() => {
+  if (product) {
+    getProductVariants(product.id).then(res => setVariants(res.data)).catch(() => {});
+  }
+}, [product]);
+
+const uniqueSizes = [...new Set(variants.map(v => v.size).filter(Boolean))];
+const uniqueColors = [...new Set(variants.map(v => v.color).filter(Boolean))];
 
   useEffect(() => {
     if (product) {
@@ -99,7 +111,39 @@ function ProductDetail() {
               <button onClick={() => setQuantity(q => Math.min(product.stock, q + 1))}>+</button>
             </div>
           )}
+{uniqueSizes.length > 0 && (
+  <div className="variant-selector">
+    <label>Size:</label>
+    <div className="variant-options">
+      {uniqueSizes.map(size => (
+        <button
+          key={size}
+          className={`variant-btn ${selectedVariant?.size === size ? 'selected' : ''}`}
+          onClick={() => setSelectedVariant(variants.find(v => v.size === size))}
+        >
+          {size}
+        </button>
+      ))}
+    </div>
+  </div>
+)}
 
+{uniqueColors.length > 0 && (
+  <div className="variant-selector">
+    <label>Color:</label>
+    <div className="variant-options">
+      {uniqueColors.map(color => (
+        <button
+          key={color}
+          className={`variant-btn ${selectedVariant?.color === color ? 'selected' : ''}`}
+          onClick={() => setSelectedVariant(variants.find(v => v.color === color))}
+        >
+          {color}
+        </button>
+      ))}
+    </div>
+  </div>
+)}
           <button
             className="add-to-cart-btn detail-add-btn"
             disabled={product.stock === 0}

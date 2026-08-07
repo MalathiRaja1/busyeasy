@@ -41,5 +41,8 @@ export const getMyAddresses = () => axiosInstance.get("/addresses");
 export const createAddress = (data) => axiosInstance.post("/addresses", data);
 export const deleteAddress = (id) => axiosInstance.delete(`/addresses/${id}`);
 export const getDashboardStats = () => axiosInstance.get("/dashboard/stats");
+export const getProductVariants = (productId) => axiosInstance.get(`/variants/product/${productId}`);
+export const createVariant = (data) => axiosInstance.post("/variants", data);
+export const deleteVariant = (id) => axiosInstance.delete(`/variants/${id}`);
 
 export default axiosInstance;
