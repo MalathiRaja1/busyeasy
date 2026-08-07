@@ -22,6 +22,7 @@ import CategoryNav from './components/CategoryNav';
 import './App.css';
 
 function Home({ products, error, reloadProducts, searchTerm, selectedCategory, categoryMatch, onSelectCategory }) {
+  const { t } = useTranslation();  // ← ADD THIS LINE
   const location = useLocation();
 
   useEffect(() => {
