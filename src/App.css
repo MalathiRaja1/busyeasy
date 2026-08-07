@@ -1091,20 +1091,23 @@ body {
   opacity: 1;
 }
 
+
+
+.delete-btn {
+  color: #2563eb;       /* keep same blue, or use a different shade if you want to distinguish */
+}
 .action-btn {
   background: none;
   border: none;
   color: #2563eb;      /* blue */
   cursor: pointer;
   font-weight: 500;
+  font-size: 14px;
   padding: 4px 8px;
-  text-decoration: none;
+  margin-right: 6px;
 }
 
 .action-btn:hover {
   text-decoration: underline;
-}
-
-.delete-btn {
-  color: #2563eb;       /* keep same blue, or use a different shade if you want to distinguish */
+  color: #1d4ed8;      /* slightly darker blue on hover */
 }

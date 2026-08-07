@@ -141,13 +141,9 @@ const handleEdit = (product) => {
               <td>{p.category}</td>
               <td>₹{p.price}</td>
               <td>{p.stock}</td>
-         <td className="actions-cell">
-  <button className="action-btn edit-btn" onClick={() => handleEdit(p.id)}>
-    Edit
-  </button>
-  <button className="action-btn delete-btn" onClick={() => handleDelete(p.id)}>
-    Delete
-  </button>
+         <td>
+  <button className="action-btn" onClick={() => handleEdit(p)}>{t('edit')}</button>
+  <button className="action-btn" onClick={() => handleDelete(p.id)}>{t('delete')}</button>
 </td>
             </tr>
           ))}
