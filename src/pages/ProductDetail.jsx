@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
-import { getProductById, getProducts } from '../services/api';
+import { getProductById, getProducts, getProductVariants } from '../services/api';
 import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
 import ProductReviews from '../components/ProductReviews';
