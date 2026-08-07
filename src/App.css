@@ -1058,3 +1058,53 @@ body {
   color: #888;
   margin-top: 8px;
 }
+
+.product-detail-gallery {
+  flex: 1;
+  min-width: 280px;
+}
+
+.gallery-thumbnails {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.gallery-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.gallery-thumb:hover {
+  opacity: 1;
+}
+
+.gallery-thumb.active {
+  border-color: #2874f0;
+  opacity: 1;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: #2563eb;      /* blue */
+  cursor: pointer;
+  font-weight: 500;
+  padding: 4px 8px;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  text-decoration: underline;
+}
+
+.delete-btn {
+  color: #2563eb;       /* keep same blue, or use a different shade if you want to distinguish */
+}

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 import { getProductById, getProducts } from '../services/api';
 import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
-import toast from 'react-hot-toast';
 import ProductReviews from '../components/ProductReviews';
 
 function ProductDetail() {
@@ -15,12 +15,16 @@ function ProductDetail() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setProduct(null); // reset while loading new product
+    setProduct(null);
     getProductById(id)
-      .then(res => setProduct(res.data))
+      .then(res => {
+        setProduct(res.data);
+        setSelectedImage(res.data.imageUrl);
+      })
       .catch(err => setError(err.message));
   }, [id]);
 
@@ -31,31 +35,53 @@ function ProductDetail() {
           const related = res.data.filter(
             p => p.category === product.category && p.id !== product.id
           );
-          setRelatedProducts(related.slice(0, 4)); // show up to 4
+          setRelatedProducts(related.slice(0, 4));
         })
         .catch(() => {});
     }
   }, [product]);
 
-const handleAddToCart = () => {
-  for (let i = 0; i < quantity; i++) {
-    dispatch(addToCart(product));
-  }
-  toast.success(`${product.name} ${t('toast_added_cart')}`);
-};
+  const handleAddToCart = () => {
+    for (let i = 0; i < quantity; i++) {
+      dispatch(addToCart(product));
+    }
+    toast.success(`${product.name} ${t('toast_added_cart')}`);
+  };
 
   if (error) return <p style={{ color: 'red', padding: '20px' }}>Error: {error}</p>;
   if (!product) return <p style={{ padding: '20px' }}>Loading...</p>;
+
+  const allImages = [
+    product.imageUrl,
+    ...(product.additionalImageUrls
+      ? product.additionalImageUrls.split(',').map(url => url.trim()).filter(Boolean)
+      : [])
+  ];
 
   return (
     <div className="product-detail-page">
       <Link to="/" className="back-link">← {t('back_to_products')}</Link>
 
       <div className="product-detail-container">
-        <div className="product-detail-image">
-          <img src={product.imageUrl || "https://via.placeholder.com/400"} alt={product.name} />
+        <div className="product-detail-gallery">
+          <div className="product-detail-image">
+            <img src={selectedImage || "https://via.placeholder.com/400"} alt={product.name} />
+          </div>
+          {allImages.length > 1 && (
+            <div className="gallery-thumbnails">
+              {allImages.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`${product.name} ${idx + 1}`}
+                  className={`gallery-thumb ${selectedImage === img ? 'active' : ''}`}
+                  onClick={() => setSelectedImage(img)}
+                />
+              ))}
+            </div>
+          )}
         </div>
-<ProductReviews productId={product.id} />
+
         <div className="product-detail-info">
           <span className="product-category">{product.category}</span>
           <h1>{product.name}</h1>
@@ -94,9 +120,9 @@ const handleAddToCart = () => {
           </div>
         </div>
       )}
-      
+
+      <ProductReviews productId={product.id} />
     </div>
-    
   );
 }
 

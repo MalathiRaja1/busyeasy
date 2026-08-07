@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/api';
 
 const emptyForm = {
-  name: '', description: '', price: '', imageUrl: '', category: '', stock: ''
+  name: '', description: '', price: '', imageUrl: '', additionalImageUrls: '', category: '', stock: ''
 };
 
 function AdminProducts() {
@@ -32,41 +32,51 @@ function AdminProducts() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      const payload = {
-        ...form,
-        price: parseFloat(form.price),
-        stock: parseInt(form.stock),
-      };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("handleSubmit called", form);
+  setError('');
+  try {
+    const payload = {
+      ...form,
+      price: parseFloat(form.price),
+      stock: parseInt(form.stock),
+    };
+    console.log("Payload being sent:", payload);
 
-      if (editingId) {
-        await updateProduct(editingId, { ...payload, id: editingId });
-      } else {
-        await createProduct(payload);
-      }
-
-      setForm(emptyForm);
-      setEditingId(null);
-      loadProducts();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save product');
+    if (editingId) {
+      console.log("Updating product with id:", editingId);
+      const res = await updateProduct(editingId, { ...payload, id: editingId });
+      console.log("Update response:", res.data);
+    } else {
+      console.log("Creating new product");
+      const res = await createProduct(payload);
+      console.log("Create response:", res.data);
     }
-  };
 
-  const handleEdit = (product) => {
-    setForm({
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      category: product.category,
-      stock: product.stock,
-    });
-    setEditingId(product.id);
-  };
+    setForm(emptyForm);
+    setEditingId(null);
+    loadProducts();
+    console.log("Save successful, products reloaded");
+  } catch (err) {
+    console.log("SAVE FAILED:", err);
+    console.log("Error response:", err.response);
+    setError(err.response?.data?.message || 'Failed to save product');
+  }
+};
+
+const handleEdit = (product) => {
+  setForm({
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    imageUrl: product.imageUrl,
+    additionalImageUrls: product.additionalImageUrls || '',
+    category: product.category,
+    stock: product.stock,
+  });
+  setEditingId(product.id);
+};
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this product?')) return;
@@ -95,14 +105,20 @@ function AdminProducts() {
         <textarea name="description" placeholder={t('description')} value={form.description} onChange={handleChange} required />
         <input type="number" name="price" placeholder={t('price')} value={form.price} onChange={handleChange} required />
         <input type="text" name="imageUrl" placeholder={t('image_url')} value={form.imageUrl} onChange={handleChange} required />
+       <input
+  type="text"
+  name="additionalImageUrls"
+  placeholder="Additional image URLs (comma separated)"
+  value={form.additionalImageUrls}
+  onChange={handleChange}
+/>
         <input type="text" name="category" placeholder={t('category')} value={form.category} onChange={handleChange} required />
         <input type="number" name="stock" placeholder={t('stock')} value={form.stock} onChange={handleChange} required />
 
         <div className="admin-form-actions">
-        <button type="submit">{editingId ? t('update_product') : t('add_product')}</button>
-{editingId && <button type="button" onClick={handleCancelEdit}>{t('cancel')}</button>}
-
-        </div>
+    <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
+    {editingId && <button type="button" onClick={handleCancelEdit} className="cancel-btn">Cancel</button>}
+  </div>
       </form>
 
       <h3>{t('all_products')}</h3>
@@ -125,10 +141,14 @@ function AdminProducts() {
               <td>{p.category}</td>
               <td>₹{p.price}</td>
               <td>{p.stock}</td>
-              <td>
-                 <button onClick={() => handleEdit(p)}>{t('edit')}</button>
-  <button onClick={() => handleDelete(p.id)}>{t('delete')}</button>
-              </td>
+         <td className="actions-cell">
+  <button className="action-btn edit-btn" onClick={() => handleEdit(product.id)}>
+    Edit
+  </button>
+  <button className="action-btn delete-btn" onClick={() => handleDelete(product.id)}>
+    Delete
+  </button>
+</td>
             </tr>
           ))}
         </tbody>
