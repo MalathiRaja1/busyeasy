@@ -20,7 +20,12 @@ import AdminDashboard from './pages/AdminDashboard';
 import CategoryNav from './components/CategoryNav';
 import FilterSidebar from './components/FilterSidebar';
 import SortDropdown from './components/SortDropdown';
-
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import Footer from './components/Footer';
 
 import './App.css';
 
@@ -148,7 +153,13 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/admin/coupons" element={<AdminCoupons />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/terms" element={<TermsOfService />} />
+<Route path="/privacy-policy" element={<PrivacyPolicy />} />
+<Route path="/refund-policy" element={<RefundPolicy />} />
+<Route path="/about-us" element={<AboutUs />} />
+<Route path="/contact-us" element={<ContactUs />} />
         </Routes>
+        <Footer />
       </div>
     </BrowserRouter>
   );
