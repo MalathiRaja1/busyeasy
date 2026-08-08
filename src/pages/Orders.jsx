@@ -46,6 +46,7 @@ if (!token) {
             <div className="summary-total">
               <strong>{t('total')}: ₹{order.totalAmount}</strong>
             </div>
+            <button className="invoice-btn" onClick={() => handleDownloadInvoice(order.id)}>📄 Download Invoice</button>
           </div>
         ))
       )}

@@ -49,6 +49,11 @@ const { t } = useTranslation();
         <Link to="/" className="nav-btn">{t('continue_shopping')}</Link>
          <Link to="/orders" className="nav-btn">{t('view_my_orders')}</Link>
         </div>
+        <div className="confirmation-actions">
+  <button className="nav-btn" onClick={() => handleDownloadInvoice(order.id)}>📄 Download Invoice</button>
+  <Link to="/" className="nav-btn">{t('continue_shopping')}</Link>
+  <Link to="/orders" className="nav-btn">{t('view_my_orders')}</Link>
+</div>
       </div>
     </div>
   );

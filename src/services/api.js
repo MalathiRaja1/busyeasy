@@ -44,5 +44,7 @@ export const getDashboardStats = () => axiosInstance.get("/dashboard/stats");
 export const getProductVariants = (productId) => axiosInstance.get(`/variants/product/${productId}`);
 export const createVariant = (data) => axiosInstance.post("/variants", data);
 export const deleteVariant = (id) => axiosInstance.delete(`/variants/${id}`);
-
+export const downloadInvoice = (orderId) => {
+  return axiosInstance.get(`/orders/${orderId}/invoice`, { responseType: 'blob' });
+};
 export default axiosInstance;
