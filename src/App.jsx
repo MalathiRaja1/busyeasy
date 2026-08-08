@@ -18,44 +18,86 @@ import { Toaster } from 'react-hot-toast';
 import AdminCoupons from './pages/AdminCoupons';
 import AdminDashboard from './pages/AdminDashboard';
 import CategoryNav from './components/CategoryNav';
+import FilterSidebar from './components/FilterSidebar';
+import SortDropdown from './components/SortDropdown';
+
 
 import './App.css';
 
 function Home({ products, error, reloadProducts, searchTerm, selectedCategory, categoryMatch, onSelectCategory }) {
-  const { t } = useTranslation();  // ← ADD THIS LINE
+  const { t } = useTranslation();
   const location = useLocation();
+
+  const [filters, setFilters] = useState({ maxPrice: 100000, categories: [], inStockOnly: false });
+  const [sortBy, setSortBy] = useState('relevance');
 
   useEffect(() => {
     reloadProducts();
   }, [location.pathname]);
 
-  const filteredProducts = products.filter(p => {
+  // Reset max price filter once products load, to match actual max
+  useEffect(() => {
+    if (products.length > 0) {
+      const max = Math.max(...products.map(p => p.price));
+      setFilters(prev => ({ ...prev, maxPrice: prev.maxPrice === 100000 ? max : prev.maxPrice }));
+    }
+  }, [products]);
+
+  let filteredProducts = products.filter(p => {
     const term = searchTerm.toLowerCase();
     const matchesSearch =
       p.name.toLowerCase().includes(term) ||
       p.category.toLowerCase().includes(term);
 
-    const matchesCategory = !categoryMatch || categoryMatch.includes(p.category);
+    const matchesCategoryNav = !categoryMatch || categoryMatch.includes(p.category);
+    const matchesPrice = p.price <= filters.maxPrice;
+    const matchesFilterCategories = filters.categories.length === 0 || filters.categories.includes(p.category);
+    const matchesStock = !filters.inStockOnly || p.stock > 0;
 
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesCategoryNav && matchesPrice && matchesFilterCategories && matchesStock;
+  });
+
+  // Apply sorting
+  filteredProducts = [...filteredProducts].sort((a, b) => {
+    if (sortBy === 'price_low') return a.price - b.price;
+    if (sortBy === 'price_high') return b.price - a.price;
+    if (sortBy === 'name_asc') return a.name.localeCompare(b.name);
+    return 0; // relevance = original order
   });
 
   return (
     <main className="product-grid-container">
       <CategoryNav selectedCategory={selectedCategory} onSelectCategory={onSelectCategory} />
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {filteredProducts.length === 0 ? (
-        <p className="no-results">{t('no_results')} "{searchTerm}"</p>
-      ) : (
-        <div className="product-grid">
-          {filteredProducts.map(p => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+
+      <div className="shop-layout">
+        <FilterSidebar
+          filters={filters}
+          onFilterChange={setFilters}
+          products={products}
+        />
+
+        <div className="shop-main">
+          <div className="shop-toolbar">
+            <span className="results-count">{filteredProducts.length} {t('results')}</span>
+            <SortDropdown sortBy={sortBy} onSortChange={setSortBy} />
+          </div>
+
+          {filteredProducts.length === 0 ? (
+            <p className="no-results">{t('no_results')} "{searchTerm}"</p>
+          ) : (
+            <div className="product-grid">
+              {filteredProducts.map(p => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </main>
   );
 }
+
 function App() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);

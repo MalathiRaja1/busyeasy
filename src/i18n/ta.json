@@ -132,5 +132,15 @@
 "fashion": "ஃபேஷன்",
 "electronics": "மின்னணுவியல்",
 "home_kitchen": "வீடு & சமையலறை",
-"sports_fitness": "விளையாட்டு"
+"sports_fitness": "விளையாட்டு",
+
+"filters": "வடிகட்டிகள்",
+"availability": "கிடைக்கும் தன்மை",
+"in_stock_only": "கையிருப்பில் உள்ளவை மட்டும்",
+"clear_filters": "வடிகட்டிகளை அழிக்கவும்",
+"sort_relevance": "பொருத்தம்",
+"sort_price_low": "விலை: குறைவிலிருந்து அதிகம்",
+"sort_price_high": "விலை: அதிகத்திலிருந்து குறைவு",
+"sort_name": "பெயர்: A-Z",
+"results": "முடிவுகள்"
 }

@@ -130,6 +130,16 @@
 "fashion": "Fashion",
 "electronics": "Electronics",
 "home_kitchen": "Home & Kitchen",
-"sports_fitness": "Sports"
+"sports_fitness": "Sports",
+
+"filters": "Filters",
+"availability": "Availability",
+"in_stock_only": "In Stock Only",
+"clear_filters": "Clear Filters",
+"sort_relevance": "Relevance",
+"sort_price_low": "Price: Low to High",
+"sort_price_high": "Price: High to Low",
+"sort_name": "Name: A-Z",
+"results": "results"
 }
 
