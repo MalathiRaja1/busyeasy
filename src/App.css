@@ -1650,3 +1650,106 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.recently-viewed-section, .related-products-section, .fbt-section, .best-sellers-section {
+  margin-top: 40px;
+}
+
+.recently-viewed-section h2, .best-sellers-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.fbt-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.fbt-items {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.fbt-thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.fbt-plus {
+  font-size: 20px;
+  color: #888;
+}
+
+.fbt-total {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.banner-carousel {
+  position: relative;
+  height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.banner-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.banner-slide.active {
+  opacity: 1;
+}
+
+.banner-content {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+}
+
+.banner-content h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.banner-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.banner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+}
+
+.banner-dot.active {
+  background: white;
+}
+
+@media (max-width: 480px) {
+  .banner-carousel { height: 160px; }
+  .banner-content h2 { font-size: 18px; }
+}

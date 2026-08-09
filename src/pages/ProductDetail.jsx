@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { getProductById, getProducts, getProductVariants } from '../services/api';
@@ -8,7 +8,8 @@ import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
 import ProductReviews from '../components/ProductReviews';
 import TrustBlock from '../components/TrustBlock';
-
+import { addRecentlyViewed } from '../redux/recentlyViewedSlice';
+import RecentlyViewed from '../components/RecentlyViewed';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -21,6 +22,7 @@ function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const dispatch = useDispatch();
+  const frequentlyBought = relatedProducts.slice(0, 2);
 
   useEffect(() => {
     setProduct(null);
@@ -28,7 +30,10 @@ function ProductDetail() {
     setSelectedSize(null);
     setSelectedColor(null);
     getProductById(id)
-      .then(res => setProduct(res.data))
+      .then(res => {
+        setProduct(res.data);
+        dispatch(addRecentlyViewed(res.data));
+      })
       .catch(err => setError(err.message));
   }, [id]);
 
@@ -49,11 +54,16 @@ function ProductDetail() {
     }
   }, [product]);
 
+  const handleAddAllToCart = () => {
+    dispatch(addToCart(product));
+    frequentlyBought.forEach(p => dispatch(addToCart(p)));
+    toast.success(t('bundle_added'));
+  };
+
   const uniqueSizes = [...new Set(variants.map(v => v.size).filter(Boolean))];
   const uniqueColors = [...new Set(variants.map(v => v.color).filter(Boolean))];
   const hasVariants = variants.length > 0;
 
-  // Find the exact matching variant based on current selections
   const matchedVariant = variants.find(v =>
     (uniqueSizes.length === 0 || v.size === selectedSize) &&
     (uniqueColors.length === 0 || v.color === selectedColor)
@@ -78,7 +88,7 @@ function ProductDetail() {
     const cartItem = hasVariants
       ? {
           ...product,
-          id: `${product.id}-${matchedVariant.id}`, // unique cart id per variant
+          id: `${product.id}-${matchedVariant.id}`,
           productId: product.id,
           variantId: matchedVariant.id,
           size: matchedVariant.size,
@@ -171,9 +181,30 @@ function ProductDetail() {
           >
             {t('add_to_cart')}
           </button>
+
           <TrustBlock />
         </div>
       </div>
+
+      {frequentlyBought.length > 0 && (
+        <div className="fbt-section">
+          <h2>{t('frequently_bought_together')}</h2>
+          <div className="fbt-items">
+            <img src={product.imageUrl} alt={product.name} className="fbt-thumb" />
+            <span className="fbt-plus">+</span>
+            {frequentlyBought.map((p, idx) => (
+              <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <img src={p.imageUrl} alt={p.name} className="fbt-thumb" />
+                {idx < frequentlyBought.length - 1 && <span className="fbt-plus">+</span>}
+              </div>
+            ))}
+          </div>
+          <p className="fbt-total">
+            {t('total_price')}: ₹{product.price + frequentlyBought.reduce((sum, p) => sum + p.price, 0)}
+          </p>
+          <button className="add-to-cart-btn" onClick={handleAddAllToCart}>{t('add_all_to_cart')}</button>
+        </div>
+      )}
 
       {relatedProducts.length > 0 && (
         <div className="related-products-section">
@@ -187,6 +218,7 @@ function ProductDetail() {
       )}
 
       <ProductReviews productId={product.id} />
+      <RecentlyViewed excludeId={product.id} />
     </div>
   );
 }

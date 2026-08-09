@@ -26,6 +26,7 @@ import RefundPolicy from './pages/RefundPolicy';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Footer from './components/Footer';
+import BannerCarousel from './components/BannerCarousel';
 
 import './App.css';
 
@@ -40,7 +41,6 @@ function Home({ products, error, reloadProducts, searchTerm, selectedCategory, c
     reloadProducts();
   }, [location.pathname]);
 
-  // Reset max price filter once products load, to match actual max
   useEffect(() => {
     if (products.length > 0) {
       const max = Math.max(...products.map(p => p.price));
@@ -62,18 +62,31 @@ function Home({ products, error, reloadProducts, searchTerm, selectedCategory, c
     return matchesSearch && matchesCategoryNav && matchesPrice && matchesFilterCategories && matchesStock;
   });
 
-  // Apply sorting
   filteredProducts = [...filteredProducts].sort((a, b) => {
     if (sortBy === 'price_low') return a.price - b.price;
     if (sortBy === 'price_high') return b.price - a.price;
     if (sortBy === 'name_asc') return a.name.localeCompare(b.name);
-    return 0; // relevance = original order
+    return 0;
   });
+
+  const showBestSellers = selectedCategory === 'all' && !searchTerm && products.length > 0;
 
   return (
     <main className="product-grid-container">
+      <BannerCarousel />
       <CategoryNav selectedCategory={selectedCategory} onSelectCategory={onSelectCategory} />
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+
+      {showBestSellers && (
+        <div className="best-sellers-section">
+          <h2>🔥 {t('best_sellers')}</h2>
+          <div className="product-grid">
+            {products.slice(0, 4).map(p => (
+              <ProductCard key={`bs-${p.id}`} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="shop-layout">
         <FilterSidebar
@@ -116,10 +129,11 @@ function App() {
       .catch(err => setError(err.message));
   };
 
-   const handleSelectCategory = (key, match) => {
+  const handleSelectCategory = (key, match) => {
     setSelectedCategory(key);
     setCategoryMatch(match);
   };
+
   useEffect(() => {
     loadProducts();
   }, []);
@@ -130,7 +144,7 @@ function App() {
         <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
         <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         <Routes>
-  <Route path="/" element={
+          <Route path="/" element={
             <Home
               products={products}
               error={error}
@@ -154,10 +168,10 @@ function App() {
           <Route path="/admin/coupons" element={<AdminCoupons />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/terms" element={<TermsOfService />} />
-<Route path="/privacy-policy" element={<PrivacyPolicy />} />
-<Route path="/refund-policy" element={<RefundPolicy />} />
-<Route path="/about-us" element={<AboutUs />} />
-<Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
         <Footer />
       </div>
