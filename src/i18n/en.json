@@ -140,6 +140,8 @@
 "sort_price_low": "Price: Low to High",
 "sort_price_high": "Price: High to Low",
 "sort_name": "Name: A-Z",
-"results": "results"
+"results": "results",
+
+"add_photo_url": "Add a photo URL (optional)"
 }
 

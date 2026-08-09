@@ -1559,3 +1559,29 @@ body {
   font-size: 12px;
   color: #888;
 }
+
+.invoice-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #2874f0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.review-image-input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.review-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-top: 8px;
+  cursor: pointer;
+}

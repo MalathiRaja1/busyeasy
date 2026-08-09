@@ -12,6 +12,7 @@ function ProductReviews({ productId }) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   const loadReviews = () => {
     getProductReviews(productId).then(res => setReviews(res.data)).catch(() => {});
@@ -25,25 +26,26 @@ function ProductReviews({ productId }) {
     ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
     : null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (rating === 0) {
-      toast.error(t('please_select_rating'));
-      return;
-    }
-    setSubmitting(true);
-    try {
-      await createReview({ productId, rating, comment });
-      toast.success(t('review_submitted'));
-      setRating(0);
-      setComment('');
-      loadReviews();
-    } catch (err) {
-      toast.error(t('review_failed'));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (rating === 0) {
+    toast.error(t('please_select_rating'));
+    return;
+  }
+  setSubmitting(true);
+  try {
+    await createReview({ productId, rating, comment, imageUrl: imageUrl || null });
+    toast.success(t('review_submitted'));
+    setRating(0);
+    setComment('');
+    setImageUrl('');
+    loadReviews();
+  } catch (err) {
+    toast.error(t('review_failed'));
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="reviews-section">
@@ -59,6 +61,13 @@ function ProductReviews({ productId }) {
             onChange={(e) => setComment(e.target.value)}
             rows={3}
           />
+          <input
+  type="text"
+  placeholder={t('add_photo_url')}
+  value={imageUrl}
+  onChange={(e) => setImageUrl(e.target.value)}
+  className="review-image-input"
+/>
           <button type="submit" disabled={submitting}>
             {submitting ? t('submitting') : t('submit_review')}
           </button>
@@ -79,6 +88,9 @@ function ProductReviews({ productId }) {
               </div>
               <p className="review-date">{new Date(r.createdAt).toLocaleDateString()}</p>
               {r.comment && <p className="review-comment">{r.comment}</p>}
+              {r.imageUrl && (
+    <img src={r.imageUrl} alt="Review" className="review-photo" />
+  )}
             </div>
           ))
         )}
