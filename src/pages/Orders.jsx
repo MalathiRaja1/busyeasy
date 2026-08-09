@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getMyOrders } from '../services/api';
 import { useTranslation } from 'react-i18next';
+import { getMyOrders, downloadInvoice } from '../services/api';
 import OrderTimeline from '../components/OrderTimeline';
 
 function Orders() {
+  const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
   const { token } = useSelector(state => state.auth);
-const { t } = useTranslation();
 
   useEffect(() => {
     if (token) {
@@ -19,9 +19,24 @@ const { t } = useTranslation();
     }
   }, [token]);
 
-if (!token) {
-  return <div className="orders-page"><p>{t('please_login_orders')} <Link to="/login">{t('login')}</Link></p></div>;
-}
+  const handleDownloadInvoice = async (orderId) => {
+    try {
+      const res = await downloadInvoice(orderId);
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Invoice-${orderId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error('Failed to download invoice', err);
+    }
+  };
+
+  if (!token) {
+    return <div className="orders-page"><p>{t('please_login_orders')} <Link to="/login">{t('login')}</Link></p></div>;
+  }
 
   return (
     <div className="orders-page">
@@ -33,10 +48,10 @@ if (!token) {
         orders.map(order => (
           <div key={order.id} className="order-card">
             <div className="order-card-header">
-  <span>{t('order_id')} #{order.id}</span>
-</div>
-<OrderTimeline currentStatus={order.status} />
-<p>{new Date(order.orderDate).toLocaleDateString()}</p>
+              <span>{t('order_id')} #{order.id}</span>
+            </div>
+            <OrderTimeline currentStatus={order.status} />
+            <p>{new Date(order.orderDate).toLocaleDateString()}</p>
             {order.items.map((item, idx) => (
               <div key={idx} className="summary-item">
                 <span>{item.productName} x {item.quantity}</span>
