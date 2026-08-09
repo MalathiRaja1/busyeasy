@@ -85,6 +85,9 @@ const handleSubmit = async (e) => {
               <div className="review-header">
                 <strong>{r.userName}</strong>
                 <StarRating rating={r.rating} readOnly />
+                  {r.isVerifiedPurchase && (
+      <span className="verified-badge">✓ {t('verified_purchase')}</span>
+    )}
               </div>
               <p className="review-date">{new Date(r.createdAt).toLocaleDateString()}</p>
               {r.comment && <p className="review-comment">{r.comment}</p>}
