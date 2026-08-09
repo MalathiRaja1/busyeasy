@@ -7,6 +7,8 @@ import { getProductById, getProducts, getProductVariants } from '../services/api
 import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
 import ProductReviews from '../components/ProductReviews';
+import TrustBlock from '../components/TrustBlock';
+
 
 function ProductDetail() {
   const { id } = useParams();
@@ -169,6 +171,7 @@ function ProductDetail() {
           >
             {t('add_to_cart')}
           </button>
+          <TrustBlock />
         </div>
       </div>
 

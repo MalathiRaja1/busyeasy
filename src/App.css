@@ -1594,3 +1594,59 @@ body {
   border-radius: 10px;
   font-weight: bold;
 }
+
+.trust-block {
+  margin-top: 20px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.trust-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.trust-seller-name {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.trust-rating {
+  background: #388e3c;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.trust-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.trust-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.trust-icon {
+  font-size: 16px;
+}
+
+@media (max-width: 480px) {
+  .trust-features {
+    grid-template-columns: 1fr;
+  }
+}
