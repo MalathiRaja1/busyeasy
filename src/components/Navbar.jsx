@@ -6,24 +6,22 @@ import { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import NotificationBell from './NotificationBell';
 
-
 function Navbar({ searchTerm, onSearchChange }) {
-    const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const cartItems = useSelector(state => state.cart.items);
   const { token, fullName, role } = useSelector(state => state.auth);
   const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const wishlistItems = useSelector(state => state.wishlist.items);
-    const [bump, setBump] = useState(false);
+  const [bump, setBump] = useState(false);
   const prevCount = useRef(totalCount);
 
-
- const handleLogout = () => {
-  dispatch(logout());
-  toast(t('toast_logout'), { icon: '👋' });
-  navigate('/');
-};
+  const handleLogout = () => {
+    dispatch(logout());
+    toast(t('toast_logout'), { icon: '👋' });
+    navigate('/');
+  };
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -55,45 +53,46 @@ function Navbar({ searchTerm, onSearchChange }) {
         <button className="search-btn">🔍</button>
       </div>
 
-   <div className="navbar-actions">
-  <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="lang-select">
-    <option value="en">English</option>
-    <option value="ta">தமிழ்</option>
-  </select>
+      <div className="navbar-actions">
+        <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="lang-select">
+          <option value="en">English</option>
+          <option value="ta">தமிழ்</option>
+        </select>
 
-  {token && <NotificationBell /> ? (
-    <>
-      <span className="nav-user">{t('hi')}, {fullName}</span>
+        {token && <NotificationBell />}
 
-      {/* ← ADD THE ADMIN DROPDOWN BLOCK HERE, replacing the old individual links */}
-      {role === 'Admin' && (
-        <div className="admin-dropdown">
-          <button className="nav-btn">Admin ▾</button>
-          <div className="admin-dropdown-menu">
-            <Link to="/admin/dashboard">Dashboard</Link>
-            <Link to="/admin/products">Products</Link>
-            <Link to="/admin/orders">Orders</Link>
-            <Link to="/admin/coupons">Coupons</Link>
-          </div>
-        </div>
-      )}
+        {token ? (
+          <>
+            <span className="nav-user">{t('hi')}, {fullName}</span>
 
-      <button className="nav-btn" onClick={handleLogout}>{t('logout')}</button>
-    </>
-  ) : (
-    <Link to="/login" className="nav-btn">{t('login')}</Link>
-  )}
+            {role === 'Admin' && (
+              <div className="admin-dropdown">
+                <button className="nav-btn">Admin ▾</button>
+                <div className="admin-dropdown-menu">
+                  <Link to="/admin/dashboard">Dashboard</Link>
+                  <Link to="/admin/products">Products</Link>
+                  <Link to="/admin/orders">Orders</Link>
+                  <Link to="/admin/coupons">Coupons</Link>
+                </div>
+              </div>
+            )}
 
-  <Link to="/cart" className="nav-btn cart-btn">
-    🛒 {t('cart')}
-    <span className="cart-count">{totalCount}</span>
-  </Link>
-  <Link to="/orders" className="nav-btn">{t('my_orders')}</Link>
-  <Link to="/wishlist" className="nav-btn cart-btn">
-    ❤️ {t('wishlist')}
-    <span className="cart-count">{wishlistItems.length}</span>
-  </Link>
-</div>
+            <button className="nav-btn" onClick={handleLogout}>{t('logout')}</button>
+          </>
+        ) : (
+          <Link to="/login" className="nav-btn">{t('login')}</Link>
+        )}
+
+        <Link to="/cart" className="nav-btn cart-btn">
+          🛒 {t('cart')}
+          <span className="cart-count">{totalCount}</span>
+        </Link>
+        <Link to="/orders" className="nav-btn">{t('my_orders')}</Link>
+        <Link to="/wishlist" className="nav-btn cart-btn">
+          ❤️ {t('wishlist')}
+          <span className="cart-count">{wishlistItems.length}</span>
+        </Link>
+      </div>
     </nav>
   );
 }
