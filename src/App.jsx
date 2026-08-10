@@ -27,6 +27,7 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Footer from './components/Footer';
 import BannerCarousel from './components/BannerCarousel';
+import SupportWidget from './components/SupportWidget';
 
 import './App.css';
 
@@ -174,6 +175,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
         <Footer />
+        <SupportWidget />
       </div>
     </BrowserRouter>
   );

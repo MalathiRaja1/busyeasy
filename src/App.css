@@ -1753,3 +1753,158 @@ body {
   .banner-carousel { height: 160px; }
   .banner-content h2 { font-size: 18px; }
 }
+
+.notification-bell {
+  position: relative;
+}
+
+.bell-btn {
+  background: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+}
+
+.bell-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #e53935;
+  color: white;
+  font-size: 10px;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  z-index: 20;
+  margin-top: 8px;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-weight: bold;
+  color: #333;
+}
+
+.mark-all-btn {
+  background: none;
+  border: none;
+  color: #2874f0;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.no-notifications {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
+
+.notification-item {
+  padding: 12px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.notification-item.unread {
+  background: #f0f7ff;
+}
+
+.notification-time {
+  font-size: 11px;
+  color: #999;
+}
+
+.support-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.support-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fb641b;
+  color: white;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.support-panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.support-panel-header {
+  background: #2874f0;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.support-panel-header button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.support-panel-body {
+  padding: 16px;
+}
+
+.support-contact-btn {
+  display: block;
+  text-align: center;
+  background: #fb641b;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.support-quick-info {
+  font-size: 13px;
+  color: #555;
+  margin: 4px 0;
+}

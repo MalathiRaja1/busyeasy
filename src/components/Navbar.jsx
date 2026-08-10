@@ -4,6 +4,7 @@ import { logout } from '../redux/authSlice';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
+import NotificationBell from './NotificationBell';
 
 
 function Navbar({ searchTerm, onSearchChange }) {
@@ -60,7 +61,7 @@ function Navbar({ searchTerm, onSearchChange }) {
     <option value="ta">தமிழ்</option>
   </select>
 
-  {token ? (
+  {token && <NotificationBell /> ? (
     <>
       <span className="nav-user">{t('hi')}, {fullName}</span>
 

@@ -47,4 +47,8 @@ export const deleteVariant = (id) => axiosInstance.delete(`/variants/${id}`);
 export const downloadInvoice = (orderId) => {
   return axiosInstance.get(`/orders/${orderId}/invoice`, { responseType: 'blob' });
 };
+export const getNotifications = () => axiosInstance.get("/notifications");
+export const markNotificationRead = (id) => axiosInstance.put(`/notifications/${id}/read`);
+export const markAllNotificationsRead = () => axiosInstance.put("/notifications/read-all");
+
 export default axiosInstance;
