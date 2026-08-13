@@ -48,16 +48,7 @@ function Navbar({ searchTerm, onSearchChange, products }) {
         onSearchChange={onSearchChange}
         products={products || []}
       />
-      <div className="navbar-search">
-        <input
-          type="text"
-          placeholder={t('search_placeholder')}
-          className="search-input"
-          value={searchTerm}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
-        <button className="search-btn">🔍</button>
-      </div>
+     
 
       <div className="navbar-actions">
         <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="lang-select">
