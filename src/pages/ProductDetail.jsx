@@ -10,6 +10,7 @@ import ProductReviews from '../components/ProductReviews';
 import TrustBlock from '../components/TrustBlock';
 import { addRecentlyViewed } from '../redux/recentlyViewedSlice';
 import RecentlyViewed from '../components/RecentlyViewed';
+import { Helmet } from 'react-helmet-async';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -108,6 +109,11 @@ function ProductDetail() {
 
   return (
     <div className="product-detail-page">
+      <Helmet>
+        <title>{product.name} - BuyEasy</title>
+        <meta name="description" content={product.description} />
+      </Helmet>
+
       <Link to="/" className="back-link">← {t('back_to_products')}</Link>
 
       <div className="product-detail-container">
