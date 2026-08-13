@@ -111,21 +111,21 @@ body {
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background-color: #2874f0;
-  padding: 12px 24px;
+  padding: 10px 20px;
   gap: 16px;
   flex-wrap: wrap;
 }
-
 .navbar-logo {
   color: white;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   font-style: italic;
   white-space: nowrap;
   text-decoration: none;
+  flex-shrink: 0;
 }
+
 
 
 .navbar-search {
@@ -157,31 +157,34 @@ body {
 .navbar-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
   justify-content: flex-end;
   flex: 1 1 auto;
+  margin-left: auto;
 }
-
 
 .nav-user {
   display: inline-flex;
   align-items: center;
   color: #fff;
   font-weight: 600;
-  margin-right: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-right: 2px;
 }
+
 
 .nav-btn {
   background: white;
   border: none;
-  padding: 8px 14px;
+  padding: 7px 12px;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
   color: #2874f0;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 13px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -220,10 +223,13 @@ body {
 
 .lang-select {
   border: none;
-  background: transparent;
-  color: #fff;
-  font-weight: 500;
+  background: white;
+  color: #2874f0;
+  font-weight: 600;
+  font-size: 13px;
   cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 4px;
 }
 
 .admin-dropdown {
@@ -2045,8 +2051,8 @@ body {
   background: white;
   border-radius: 4px;
   overflow: visible;
+  order: 1;
 }
-
 .search-autocomplete .search-input {
   flex: 1;
   border: none;
@@ -2120,4 +2126,43 @@ body {
   font-weight: bold;
   font-size: 13px;
   color: #212121;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    justify-content: center;
+  }
+
+  .navbar-logo {
+    flex: 1 1 100%;
+    text-align: center;
+    order: 1;
+  }
+
+  .search-autocomplete {
+    order: 2;
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .navbar-actions {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-actions {
+    gap: 4px;
+  }
+
+  .nav-btn {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
