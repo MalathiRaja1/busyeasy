@@ -2013,3 +2013,19 @@ body {
   font-size: 13px;
   margin-top: 8px;
 }
+
+.skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-mb {
+  margin-bottom: 10px;
+  display: block;
+}

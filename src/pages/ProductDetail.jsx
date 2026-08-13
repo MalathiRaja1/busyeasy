@@ -11,6 +11,7 @@ import TrustBlock from '../components/TrustBlock';
 import { addRecentlyViewed } from '../redux/recentlyViewedSlice';
 import RecentlyViewed from '../components/RecentlyViewed';
 import { Helmet } from 'react-helmet-async';
+import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -105,7 +106,7 @@ function ProductDetail() {
   };
 
   if (error) return <p style={{ color: 'red', padding: '20px' }}>Error: {error}</p>;
-  if (!product) return <p style={{ padding: '20px' }}>Loading...</p>;
+  if (!product) return <ProductDetailSkeleton />;
 
   return (
     <div className="product-detail-page">

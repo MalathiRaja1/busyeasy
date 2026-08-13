@@ -28,24 +28,26 @@ import ContactUs from './pages/ContactUs';
 import Footer from './components/Footer';
 import BannerCarousel from './components/BannerCarousel';
 import SupportWidget from './components/SupportWidget';
+import ProductCardSkeleton from './components/ProductCardSkeleton';
 
 import './App.css';
 
 function Home({ products, error, reloadProducts, searchTerm, selectedCategory, categoryMatch, onSelectCategory }) {
   const { t } = useTranslation();
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
 
   const [filters, setFilters] = useState({ maxPrice: 100000, categories: [], inStockOnly: false });
   const [sortBy, setSortBy] = useState('relevance');
 
   useEffect(() => {
+        setLoading(true);
     reloadProducts();
   }, [location.pathname]);
 
   useEffect(() => {
     if (products.length > 0) {
-      const max = Math.max(...products.map(p => p.price));
-      setFilters(prev => ({ ...prev, maxPrice: prev.maxPrice === 100000 ? max : prev.maxPrice }));
+      setLoading(false);
     }
   }, [products]);
 
@@ -72,7 +74,7 @@ function Home({ products, error, reloadProducts, searchTerm, selectedCategory, c
 
   const showBestSellers = selectedCategory === 'all' && !searchTerm && products.length > 0;
 
-  return (
+ return (
     <main className="product-grid-container">
       <BannerCarousel />
       <CategoryNav selectedCategory={selectedCategory} onSelectCategory={onSelectCategory} />
@@ -90,11 +92,7 @@ function Home({ products, error, reloadProducts, searchTerm, selectedCategory, c
       )}
 
       <div className="shop-layout">
-        <FilterSidebar
-          filters={filters}
-          onFilterChange={setFilters}
-          products={products}
-        />
+        <FilterSidebar filters={filters} onFilterChange={setFilters} products={products} />
 
         <div className="shop-main">
           <div className="shop-toolbar">
@@ -102,7 +100,13 @@ function Home({ products, error, reloadProducts, searchTerm, selectedCategory, c
             <SortDropdown sortBy={sortBy} onSortChange={setSortBy} />
           </div>
 
-          {filteredProducts.length === 0 ? (
+          {loading ? (
+            <div className="product-grid">
+              {Array.from({ length: 8 }).map((_, idx) => (
+                <ProductCardSkeleton key={idx} />
+              ))}
+            </div>
+          ) : filteredProducts.length === 0 ? (
             <p className="no-results">{t('no_results')} "{searchTerm}"</p>
           ) : (
             <div className="product-grid">
