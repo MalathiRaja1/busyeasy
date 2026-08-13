@@ -111,21 +111,22 @@ body {
 .navbar {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
   background-color: #2874f0;
-  padding: 10px 24px;
-  flex-wrap: nowrap;
+  padding: 12px 24px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .navbar-logo {
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 700;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
   font-style: italic;
-  text-decoration: none;
   white-space: nowrap;
-  flex-shrink: 0;
+  text-decoration: none;
 }
+
 
 .navbar-search {
   display: flex;
@@ -155,11 +156,13 @@ body {
 
 .navbar-actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  white-space: nowrap;
+  justify-content: flex-end;
+  flex: 1 1 auto;
 }
+
 
 .nav-user {
   color: #fff;
@@ -168,20 +171,18 @@ body {
 }
 
 .nav-btn {
-  background: #fff;
-  color: #2874f0;
+  background: white;
   border: none;
-  border-radius: 4px;
   padding: 8px 14px;
-  font-weight: 600;
-  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  color: #2874f0;
   white-space: nowrap;
   font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .cart-btn {
@@ -999,12 +1000,12 @@ body {
     flex: 0 1 auto;
   }
 
-  .nav-user {
-    font-size: 12px;
-    width: 100%;
-    text-align: center;
-    order: -1;
-  }
+ .nav-user {
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 14px;
+}
 
   .admin-dropdown-menu {
     right: auto;
@@ -2035,7 +2036,29 @@ body {
   display: flex;
   flex: 1 1 300px;
   max-width: 500px;
+  background: white;
+  border-radius: 4px;
+  overflow: visible;
 }
+
+.search-autocomplete .search-input {
+  flex: 1;
+  border: none;
+  padding: 10px 12px;
+  outline: none;
+  font-size: 14px;
+  border-radius: 4px 0 0 4px;
+  background: white;
+  color: #333;
+}
+.search-autocomplete .search-btn {
+  background: white;
+  border: none;
+  padding: 0 14px;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+}
+
 
 .search-suggestions {
   position: absolute;
