@@ -50,5 +50,7 @@ export const downloadInvoice = (orderId) => {
 export const getNotifications = () => axiosInstance.get("/notifications");
 export const markNotificationRead = (id) => axiosInstance.put(`/notifications/${id}/read`);
 export const markAllNotificationsRead = () => axiosInstance.put("/notifications/read-all");
+export const cancelOrder = (id, reason) => axiosInstance.put(`/orders/${id}/cancel`, { reason });
+export const requestReturn = (id, reason) => axiosInstance.put(`/orders/${id}/return`, { reason });
 
 export default axiosInstance;

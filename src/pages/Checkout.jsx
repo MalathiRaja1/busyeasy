@@ -22,7 +22,7 @@ function Checkout() {
 
   const [form, setForm] = useState({
     customerName: fullName || '',
-     email: '',
+    email: '',
     address: '',
     city: '',
     postalCode: '',
@@ -38,6 +38,7 @@ function Checkout() {
   const [savedAddresses, setSavedAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [saveNewAddress, setSaveNewAddress] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('razorpay');
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const finalTotal = couponApplied ? couponApplied.finalAmount : total;
@@ -58,11 +59,6 @@ function Checkout() {
           });
         }
       }).catch(() => {});
-      {!token && (
-  <p className="guest-checkout-hint">
-    {t('guest_checkout_hint')} <Link to="/signup">{t('sign_up')}</Link>
-  </p>
-)}
     }
   }, [token]);
 
@@ -96,7 +92,57 @@ function Checkout() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (finalTotal <= 0) {
+      setError('Order total must be greater than ₹0. Please check your coupon.');
+      return;
+    }
+
     setLoading(true);
+
+    const orderData = {
+      customerName: form.customerName,
+      email: form.email,
+      address: form.address,
+      city: form.city,
+      postalCode: form.postalCode,
+      phone: form.phone,
+      totalAmount: finalTotal,
+      paymentMethod: paymentMethod === 'cod' ? 'COD' : 'Razorpay',
+      couponCode: couponApplied?.code || null,
+      items: cartItems.map(item => ({
+        productId: item.productId || item.id,
+        productName: item.name + (item.size ? ` (${item.size}${item.color ? ', ' + item.color : ''})` : item.color ? ` (${item.color})` : ''),
+        price: item.price,
+        quantity: item.quantity,
+      })),
+    };
+
+    if (paymentMethod === 'cod') {
+      try {
+        if (saveNewAddress && !selectedAddressId) {
+          createAddress({
+            label: 'Home',
+            fullName: form.customerName,
+            addressLine: form.address,
+            city: form.city,
+            postalCode: form.postalCode,
+            phone: form.phone,
+            isDefault: savedAddresses.length === 0,
+          }).catch(() => {});
+        }
+
+        const orderRes = await createOrder(orderData);
+        dispatch(clearCart());
+        toast.success(t('toast_order_success'));
+        navigate(`/order-confirmation/${orderRes.data.id}`);
+      } catch (err) {
+        setError('Failed to place order');
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
 
     try {
       const razorpayRes = await createRazorpayOrder(finalTotal);
@@ -118,23 +164,6 @@ function Checkout() {
             });
 
             if (verifyRes.data.success) {
-              const orderData = {
-                customerName: form.customerName,
-                email: form.email,
-                address: form.address,
-                city: form.city,
-                postalCode: form.postalCode,
-                phone: form.phone,
-                totalAmount: finalTotal,
-                couponCode: couponApplied?.code || null,
-               items: cartItems.map(item => ({
-  productId: item.productId || item.id, // use real productId if variant, else id
-  productName: item.name + (item.size ? ` (${item.size}${item.color ? ', ' + item.color : ''})` : item.color ? ` (${item.color})` : ''),
-  price: item.price,
-  quantity: item.quantity,
-})),
-              };
-
               if (saveNewAddress && !selectedAddressId) {
                 createAddress({
                   label: 'Home',
@@ -183,14 +212,6 @@ function Checkout() {
     }
   };
 
-  // if (!token) {
-  //   return (
-  //     <div className="checkout-page">
-  //       <p>{t('please_login_checkout')} <Link to="/login">{t('login')}</Link></p>
-  //     </div>
-  //   );
-  // }
-
   if (cartItems.length === 0) {
     return (
       <div className="checkout-page">
@@ -207,6 +228,12 @@ function Checkout() {
         <form className="checkout-form" onSubmit={handleSubmit}>
           <h3>{t('shipping_address')}</h3>
           {error && <p className="auth-error">{error}</p>}
+
+          {!token && (
+            <p className="guest-checkout-hint">
+              {t('guest_checkout_hint')} <Link to="/signup">{t('sign_up')}</Link>
+            </p>
+          )}
 
           {token && savedAddresses.length > 0 && (
             <div className="saved-addresses">
@@ -243,13 +270,13 @@ function Checkout() {
             required
           />
           <input
-  type="email"
-  name="email"
-  placeholder={t('email')}
-  value={form.email}
-  onChange={handleChange}
-  required
-/>
+            type="email"
+            name="email"
+            placeholder={t('email')}
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
           <input
             type="text"
             name="address"
@@ -294,6 +321,30 @@ function Checkout() {
             </label>
           )}
 
+          <div className="payment-method-selector">
+            <h4>{t('payment_method')}</h4>
+            <label className="payment-option">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="razorpay"
+                checked={paymentMethod === 'razorpay'}
+                onChange={() => setPaymentMethod('razorpay')}
+              />
+              <span>💳 {t('pay_online')}</span>
+            </label>
+            <label className="payment-option">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="cod"
+                checked={paymentMethod === 'cod'}
+                onChange={() => setPaymentMethod('cod')}
+              />
+              <span>💵 {t('cash_on_delivery')}</span>
+            </label>
+          </div>
+
           <div className="coupon-section">
             <input
               type="text"
@@ -314,7 +365,7 @@ function Checkout() {
           )}
 
           <button type="submit" disabled={loading}>
-            {loading ? t('placing_order') : `${t('place_order')} (₹${finalTotal})`}
+            {loading ? t('placing_order') : paymentMethod === 'cod' ? `${t('place_order')} (COD)` : `${t('place_order')} (₹${finalTotal})`}
           </button>
         </form>
 

@@ -2,14 +2,50 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { getMyOrders, downloadInvoice } from '../services/api';
+import { getMyOrders, downloadInvoice, cancelOrder, requestReturn } from '../services/api';
 import OrderTimeline from '../components/OrderTimeline';
+import toast from 'react-hot-toast';
 
 function Orders() {
   const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState('');
   const { token } = useSelector(state => state.auth);
+  const [actionOrderId, setActionOrderId] = useState(null);
+  const [actionType, setActionType] = useState(null);
+  const [reason, setReason] = useState('');
+
+  const openActionModal = (orderId, type) => {
+    setActionOrderId(orderId);
+    setActionType(type);
+    setReason('');
+  };
+
+  const closeActionModal = () => {
+    setActionOrderId(null);
+    setActionType(null);
+    setReason('');
+  };
+
+  const handleSubmitAction = async () => {
+    if (!reason.trim()) {
+      toast.error('Please provide a reason');
+      return;
+    }
+    try {
+      if (actionType === 'cancel') {
+        await cancelOrder(actionOrderId, reason);
+        toast.success('Order cancelled');
+      } else {
+        await requestReturn(actionOrderId, reason);
+        toast.success('Return request submitted');
+      }
+      closeActionModal();
+      getMyOrders().then(res => setOrders(res.data)).catch(() => {});
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Action failed');
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -61,9 +97,47 @@ function Orders() {
             <div className="summary-total">
               <strong>{t('total')}: ₹{order.totalAmount}</strong>
             </div>
+
             <button className="invoice-btn" onClick={() => handleDownloadInvoice(order.id)}>📄 Download Invoice</button>
+
+            {order.status === 'Pending' && (
+              <button className="cancel-order-btn" onClick={() => openActionModal(order.id, 'cancel')}>
+                Cancel Order
+              </button>
+            )}
+
+            {order.status === 'Delivered' && (
+              <button className="return-order-btn" onClick={() => openActionModal(order.id, 'return')}>
+                Request Return
+              </button>
+            )}
+
+            {order.cancellationReason && (
+              <p className="order-reason">Cancelled: {order.cancellationReason}</p>
+            )}
+            {order.returnReason && (
+              <p className="order-reason">Return reason: {order.returnReason}</p>
+            )}
           </div>
         ))
+      )}
+
+      {actionOrderId && (
+        <div className="modal-overlay" onClick={closeActionModal}>
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+            <h3>{actionType === 'cancel' ? 'Cancel Order' : 'Request Return'}</h3>
+            <textarea
+              placeholder="Please provide a reason..."
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+            />
+            <div className="modal-actions">
+              <button onClick={handleSubmitAction} className="modal-confirm-btn">Submit</button>
+              <button onClick={closeActionModal} className="modal-cancel-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

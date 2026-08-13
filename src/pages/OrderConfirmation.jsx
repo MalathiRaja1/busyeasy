@@ -40,7 +40,10 @@ function OrderConfirmation() {
         <h2>✅ {t('order_placed')}</h2>
         <p>{t('order_id')}: #{order.id}</p>
         <OrderTimeline currentStatus={order.status} />
-
+<p>{t('payment_method')}: {order.paymentMethod === 'COD' ? `💵 ${t('cash_on_delivery')}` : `💳 ${t('pay_online')}`}</p>
+{order.paymentMethod === 'COD' && order.paymentStatus === 'Pending' && (
+  <p className="cod-notice">{t('cod_notice')}</p>
+)}
         <h3>{t('shipping_to')}:</h3>
         <p>{order.customerName}</p>
         <p>{order.address}, {order.city} - {order.postalCode}</p>

@@ -161,6 +161,11 @@
 
 "need_help": "Need Help?",
 "support_message": "We're here to help! Reach out anytime.",
-"contact_us": "Contact Us"
+"contact_us": "Contact Us",
+
+"payment_method": "Payment Method",
+"pay_online": "Pay Online",
+"cash_on_delivery": "Cash on Delivery",
+"cod_notice": "Please keep exact change ready at the time of delivery."
 }
 
