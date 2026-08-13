@@ -172,5 +172,11 @@
 
 "only_left": "{{count}} மட்டுமே உள்ளது!",
 "only_left_one": "{{count}} மட்டுமே உள்ளது!",
-"only_left_other": "{{count}} மட்டுமே உள்ளன!"
+"only_left_other": "{{count}} மட்டுமே உள்ளன!",
+
+
+"save_for_later": "பின்னர் சேமிக்கவும்",
+"saved_for_later": "பின்னர் சேமிக்கப்பட்டவை",
+"move_to_cart": "கார்ட்டிற்கு நகர்த்து",
+"moved_to_cart": "கார்ட்டிற்கு நகர்த்தப்பட்டது!"
 }

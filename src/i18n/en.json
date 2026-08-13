@@ -170,6 +170,11 @@
 
 "only_left": "Only {{count}} left!",
 "only_left_one": "Only {{count}} left!",
-"only_left_other": "Only {{count}} left!"
+"only_left_other": "Only {{count}} left!",
+
+"save_for_later": "Save for Later",
+"saved_for_later": "Saved for Later",
+"move_to_cart": "Move to Cart",
+"moved_to_cart": "Moved to cart!"
 }
 
