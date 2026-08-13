@@ -2029,3 +2029,66 @@ body {
   margin-bottom: 10px;
   display: block;
 }
+
+.search-autocomplete {
+  position: relative;
+  display: flex;
+  flex: 1 1 300px;
+  max-width: 500px;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 50;
+  margin-top: 2px;
+}
+
+.search-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-suggestion-item:hover {
+  background: #f5f9ff;
+}
+
+.suggestion-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.suggestion-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.suggestion-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.suggestion-category {
+  font-size: 11px;
+  color: #999;
+}
+
+.suggestion-price {
+  font-weight: bold;
+  font-size: 13px;
+  color: #212121;
+}

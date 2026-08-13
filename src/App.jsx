@@ -146,7 +146,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} products={products} />
         <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         <Routes>
           <Route path="/" element={

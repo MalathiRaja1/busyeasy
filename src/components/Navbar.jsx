@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import NotificationBell from './NotificationBell';
+import SearchAutocomplete from './SearchAutocomplete';
 
-function Navbar({ searchTerm, onSearchChange }) {
+
+function Navbar({ searchTerm, onSearchChange, products }) {
   const { t, i18n } = useTranslation();
   const cartItems = useSelector(state => state.cart.items);
   const { token, fullName, role } = useSelector(state => state.auth);
@@ -41,7 +43,11 @@ function Navbar({ searchTerm, onSearchChange }) {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo">{t('appName')}</Link>
-
+ <SearchAutocomplete
+        searchTerm={searchTerm}
+        onSearchChange={onSearchChange}
+        products={products || []}
+      />
       <div className="navbar-search">
         <input
           type="text"
