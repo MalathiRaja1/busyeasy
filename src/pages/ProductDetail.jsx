@@ -166,12 +166,13 @@ function ProductDetail() {
           )}
 
           <p className={availableStock > 0 ? "in-stock" : "out-of-stock"}>
-            {hasVariants && !matchedVariant
-              ? t('select_variant_first')
-              : availableStock > 0
-                ? `${t('in_stock')} (${availableStock} ${t('available')})`
-                : t('out_of_stock')}
-          </p>
+  {hasVariants && !matchedVariant && t('select_variant_first')}
+  {(!hasVariants || matchedVariant) && availableStock === 0 && t('out_of_stock')}
+  {(!hasVariants || matchedVariant) && availableStock > 0 && availableStock <= 5 && (
+    <span className="scarcity-text">⚡ {t('only_left', { count: availableStock })}</span>
+  )}
+  {(!hasVariants || matchedVariant) && availableStock > 5 && `${t('in_stock')} (${availableStock} ${t('available')})`}
+</p>
 
           {canAddToCart && (
             <div className="quantity-selector">

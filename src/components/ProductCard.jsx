@@ -49,9 +49,13 @@ const handleWishlistToggle = (e) => {
           <span className="product-category">{product.category}</span>
           <h3 className="product-name">{product.name}</h3>
           <p className="product-price">₹{product.price}</p>
-          <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
-            {product.stock > 0 ? `${t('in_stock')} (${product.stock})` : t('out_of_stock')}
-          </p>
+         <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
+  {product.stock === 0 && t('out_of_stock')}
+  {product.stock > 0 && product.stock <= 5 && (
+    <span className="scarcity-text">⚡ {t('only_left', { count: product.stock })}</span>
+  )}
+  {product.stock > 5 && `${t('in_stock')} (${product.stock})`}
+</p>
           <button
             className={`add-to-cart-btn ${justAdded ? 'added' : ''}`}
             disabled={product.stock === 0}

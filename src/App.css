@@ -2216,3 +2216,14 @@ body {
     padding-bottom: 80px;
   }
 }
+
+.scarcity-text {
+  color: #e53935;
+  font-weight: bold;
+  animation: scarcity-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scarcity-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
