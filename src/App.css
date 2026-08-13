@@ -165,6 +165,8 @@ body {
 
 
 .nav-user {
+  display: inline-flex;
+  align-items: center;
   color: #fff;
   font-weight: 600;
   margin-right: 4px;
@@ -1762,11 +1764,15 @@ body {
 .bell-btn {
   background: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;      /* matches .nav-btn */
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;        /* matches .nav-btn */
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .bell-badge {
