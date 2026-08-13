@@ -2166,3 +2166,53 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.sticky-add-to-cart {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sticky-add-to-cart {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 12px 16px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 90;
+  }
+
+  .sticky-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #212121;
+  }
+
+  .sticky-add-btn {
+    flex: 1;
+    max-width: 200px;
+    padding: 12px;
+    background: #ff9f00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .sticky-add-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  /* Add padding to bottom of product detail page so sticky bar doesn't cover content */
+  .product-detail-page {
+    padding-bottom: 80px;
+  }
+}

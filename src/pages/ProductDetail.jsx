@@ -12,6 +12,7 @@ import { addRecentlyViewed } from '../redux/recentlyViewedSlice';
 import RecentlyViewed from '../components/RecentlyViewed';
 import { Helmet } from 'react-helmet-async';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
+import StickyAddToCart from '../components/StickyAddToCart';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -226,6 +227,11 @@ function ProductDetail() {
 
       <ProductReviews productId={product.id} />
       <RecentlyViewed excludeId={product.id} />
+            <StickyAddToCart
+        price={product.price}
+        onAddToCart={handleAddToCart}
+        disabled={!canAddToCart}
+      />
     </div>
   );
 }
