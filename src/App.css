@@ -2279,3 +2279,28 @@ body {
 .skip-link:focus {
   top: 0;
 }
+
+.social-login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0;
+  color: #999;
+  font-size: 13px;
+}
+
+.social-login-divider::before,
+.social-login-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.social-login-divider span {
+  padding: 0 12px;
+}
+
+.google-login-wrapper {
+  display: flex;
+  justify-content: center;
+}

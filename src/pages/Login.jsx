@@ -13,6 +13,8 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  import { GoogleLogin } from '@react-oauth/google';
+import { googleLogin } from '../services/authApi';
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -26,7 +28,15 @@ const handleSubmit = async (e) => {
     setError(err.response?.data?.message || 'Login failed');
   }
 };
-
+const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    const res = await googleLogin(credentialResponse.credential);
+    dispatch(setAuth(res.data));
+    navigate('/');
+  } catch (err) {
+    setError('Google login failed');
+  }
+};
   return (
     <div className="auth-page">
       <form className="auth-form" onSubmit={handleSubmit}>
@@ -48,6 +58,17 @@ const handleSubmit = async (e) => {
         />
         <button type="submit">{t('login')}</button>
    <p>{t('dont_have_account')} <a href="/signup">{t('sign_up')}</a></p>
+
+   <div className="social-login-divider">
+  <span>OR</span>
+</div>
+
+<div className="google-login-wrapper">
+  <GoogleLogin
+    onSuccess={handleGoogleSuccess}
+    onError={() => setError('Google login failed')}
+  />
+</div>
       </form>
     </div>
   );

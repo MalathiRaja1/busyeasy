@@ -5,3 +5,4 @@ const API_URL = "https://buyeasy-api-cda6efdmdybsemfc.centralindia-01.azurewebsi
 
 export const registerUser = (data) => axios.post(`${API_URL}/register`, data);
 export const loginUser = (data) => axios.post(`${API_URL}/login`, data);
+export const googleLogin = (idToken) => axios.post(`${API_URL}/google-login`, { idToken });
