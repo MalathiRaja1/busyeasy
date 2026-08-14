@@ -24,9 +24,9 @@ function SupportWidget() {
           </div>
         </div>
       )}
-      <button className="support-fab" onClick={() => setOpen(!open)}>
-        {open ? '✕' : '💬'}
-      </button>
+      <button className="support-fab" onClick={() => setOpen(!open)} aria-label={open ? 'Close support chat' : 'Open support chat'}>
+  {open ? '✕' : '💬'}
+</button>
     </div>
   );
 }

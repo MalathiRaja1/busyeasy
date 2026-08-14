@@ -2261,3 +2261,21 @@ body {
   cursor: pointer;
   font-size: 13px;
 }
+
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #2874f0;
+  color: white;
+  padding: 10px 16px;
+  z-index: 1000;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}

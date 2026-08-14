@@ -50,10 +50,10 @@ function NotificationBell() {
 
   return (
     <div className="notification-bell" ref={dropdownRef}>
-      <button className="bell-btn" onClick={handleBellClick}>
-        🔔
-        {unreadCount > 0 && <span className="bell-badge">{unreadCount}</span>}
-      </button>
+     <button className="bell-btn" onClick={handleBellClick} aria-label="Notifications">
+  🔔
+  {unreadCount > 0 && <span className="bell-badge">{unreadCount}</span>}
+</button>
 
       {open && (
         <div className="notification-dropdown">

@@ -148,6 +148,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} products={products} />
          <RouteTracker />
         <Toaster position="top-center" toastOptions={{ duration: 2500 }} />

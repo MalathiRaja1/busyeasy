@@ -32,18 +32,18 @@ const handleWishlistToggle = (e) => {
     <Link to={`/product/${product.id}`} className="product-card-link">
       <div className="product-card">
         <div className="product-image-wrapper">
-          <img
-            src={product.imageUrl || "https://via.placeholder.com/200"}
-            alt={product.name}
-            className="product-image"
-          />
-          <button
-            className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
-            onClick={handleWishlistToggle}
-            aria-label="Toggle wishlist"
-          >
-            {isWishlisted ? '❤️' : '🤍'}
-          </button>
+         <img
+  src={product.imageUrl || "https://via.placeholder.com/200"}
+  alt={product.name}
+  className="product-image"
+/>
+         <button
+  className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
+  onClick={handleWishlistToggle}
+  aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+>
+  {isWishlisted ? '❤️' : '🤍'}
+</button>
         </div>
         <div className="product-info">
           <span className="product-category">{product.category}</span>
