@@ -13,6 +13,7 @@ import RecentlyViewed from '../components/RecentlyViewed';
 import { Helmet } from 'react-helmet-async';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import StickyAddToCart from '../components/StickyAddToCart';
+import { trackEvent } from '../utils/analytics';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -87,7 +88,12 @@ function ProductDetail() {
       toast.error(t('select_variant_first'));
       return;
     }
-
+const handleAddToCart = (e) => {
+  e.preventDefault();
+  dispatch(addToCart(product));
+  trackEvent('add_to_cart', 'ecommerce', product.name, product.price);
+  toast.success(`${product.name} ${t('toast_added_cart')}`);
+};
     const cartItem = hasVariants
       ? {
           ...product,

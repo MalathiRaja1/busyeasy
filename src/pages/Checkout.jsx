@@ -12,6 +12,7 @@ import {
   createAddress,
 } from '../services/api';
 import { clearCart } from '../redux/cartSlice';
+import { trackEvent } from '../utils/analytics';
 
 function Checkout() {
   const { t } = useTranslation();
@@ -136,6 +137,7 @@ function Checkout() {
         dispatch(clearCart());
         toast.success(t('toast_order_success'));
         navigate(`/order-confirmation/${orderRes.data.id}`);
+        trackEvent('purchase', 'ecommerce', 'order_completed', finalTotal);
       } catch (err) {
         setError('Failed to place order');
       } finally {

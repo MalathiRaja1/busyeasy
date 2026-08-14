@@ -29,6 +29,8 @@ import Footer from './components/Footer';
 import BannerCarousel from './components/BannerCarousel';
 import SupportWidget from './components/SupportWidget';
 import ProductCardSkeleton from './components/ProductCardSkeleton';
+import { useLocation } from 'react-router-dom';
+import { trackPageView } from './utils/analytics';
 
 import './App.css';
 
@@ -147,6 +149,7 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} products={products} />
+         <RouteTracker />
         <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
         <Routes>
           <Route path="/" element={
