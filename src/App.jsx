@@ -29,7 +29,7 @@ import Footer from './components/Footer';
 import BannerCarousel from './components/BannerCarousel';
 import SupportWidget from './components/SupportWidget';
 import ProductCardSkeleton from './components/ProductCardSkeleton';
-
+import { useSelector } from 'react-redux';
 import { trackPageView } from './utils/analytics';
 
 import './App.css';
@@ -137,6 +137,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [categoryMatch, setCategoryMatch] = useState(null);
+ const theme = useSelector(state => state.theme.mode);
 
   const loadProducts = () => {
     getProducts()
@@ -155,6 +156,7 @@ function App() {
 
   return (
     <BrowserRouter>
+     <div className={`app ${theme === 'dark' ? 'dark-theme' : ''}`}>
       <div className="app">
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} products={products} />
@@ -193,6 +195,7 @@ function App() {
         <Footer />
         <SupportWidget />
       </div>
+   </div>
     </BrowserRouter>
   );
 }

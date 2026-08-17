@@ -2315,3 +2315,119 @@ body {
   cursor: pointer;
   font-size: 13px;
 }
+
+/* ===== DARK MODE ===== */
+
+.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-theme body,
+.dark-theme .product-grid-container,
+.dark-theme .checkout-page,
+.dark-theme .cart-page,
+.dark-theme .orders-page,
+.dark-theme .admin-page,
+.dark-theme .product-detail-page,
+.dark-theme .confirmation-page,
+.dark-theme .legal-page {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-theme .product-card,
+.dark-theme .cart-item,
+.dark-theme .order-summary,
+.dark-theme .checkout-form,
+.dark-theme .cart-summary,
+.dark-theme .auth-form,
+.dark-theme .order-card,
+.dark-theme .admin-form,
+.dark-theme .admin-table,
+.dark-theme .stat-card,
+.dark-theme .reviews-section,
+.dark-theme .trust-block,
+.dark-theme .fbt-section,
+.dark-theme .legal-page,
+.dark-theme .filter-sidebar,
+.dark-theme .confirmation-box,
+.dark-theme .product-detail-container {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.dark-theme .product-name,
+.dark-theme .product-price,
+.dark-theme .product-detail-info h1,
+.dark-theme .product-detail-price,
+.dark-theme .cart-item-info h4,
+.dark-theme .stat-value {
+  color: #f0f0f0;
+}
+
+.dark-theme .product-detail-description,
+.dark-theme .review-comment,
+.dark-theme .summary-item {
+  color: #c0c0c0;
+}
+
+.dark-theme .checkout-form input,
+.dark-theme .checkout-form textarea,
+.dark-theme .admin-form input,
+.dark-theme .admin-form textarea,
+.dark-theme .auth-form input,
+.dark-theme .variant-manager-form input,
+.dark-theme .review-form textarea,
+.dark-theme .contact-form input,
+.dark-theme .contact-form textarea {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.dark-theme .admin-table th,
+.dark-theme .admin-table td {
+  border-color: #333;
+}
+
+.dark-theme .footer-column a {
+  color: #aaa;
+}
+
+.dark-theme .no-results,
+.dark-theme .stat-label,
+.dark-theme .review-date,
+.dark-theme .suggestion-category {
+  color: #999;
+}
+
+.theme-toggle-btn {
+  background: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dark-theme .search-suggestions,
+.dark-theme .notification-dropdown,
+.dark-theme .admin-dropdown-menu,
+.dark-theme .modal-box {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.dark-theme .search-suggestion-item,
+.dark-theme .notification-item,
+.dark-theme .admin-dropdown-menu a {
+  border-color: #333;
+}
+
+.dark-theme .search-suggestion-item:hover,
+.dark-theme .notification-item:hover,
+.dark-theme .admin-dropdown-menu a:hover {
+  background-color: #2a2a2a;
+}

@@ -6,6 +6,8 @@ import { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import NotificationBell from './NotificationBell';
 import SearchAutocomplete from './SearchAutocomplete';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from '../redux/themeSlice';
 
 
 function Navbar({ searchTerm, onSearchChange, products }) {
@@ -18,13 +20,17 @@ function Navbar({ searchTerm, onSearchChange, products }) {
   const wishlistItems = useSelector(state => state.wishlist.items);
   const [bump, setBump] = useState(false);
   const prevCount = useRef(totalCount);
+  const theme = useSelector(state => state.theme.mode);
+
 
   const handleLogout = () => {
     dispatch(logout());
     toast(t('toast_logout'), { icon: '👋' });
     navigate('/');
   };
-
+const handleThemeToggle = () => {
+  dispatch(toggleTheme());
+};
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     localStorage.setItem('buyeasy_lang', lang);
@@ -51,6 +57,9 @@ function Navbar({ searchTerm, onSearchChange, products }) {
      
 
       <div className="navbar-actions">
+        <button className="theme-toggle-btn" onClick={handleThemeToggle} aria-label="Toggle dark mode">
+  {theme === 'dark' ? '☀️' : '🌙'}
+</button>
         <select onChange={(e) => changeLanguage(e.target.value)} value={i18n.language} className="lang-select">
           <option value="en">English</option>
           <option value="ta">தமிழ்</option>
