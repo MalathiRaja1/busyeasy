@@ -6,7 +6,6 @@ import { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import NotificationBell from './NotificationBell';
 import SearchAutocomplete from './SearchAutocomplete';
-import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/themeSlice';
 
 
