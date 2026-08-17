@@ -222,14 +222,16 @@ body {
 }
 
 .lang-select {
-  border: none;
+  appearance: none;
+  -webkit-appearance: none;
   background: white;
   color: #2874f0;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  padding: 6px 8px;
+  border: none;
+  padding: 8px 14px;
   border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .admin-dropdown {
@@ -2406,10 +2408,14 @@ body {
 .theme-toggle-btn {
   background: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .dark-theme .search-suggestions,
