@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet-async';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import StickyAddToCart from '../components/StickyAddToCart';
 import { trackEvent } from '../utils/analytics';
+import { getProductById, getRecommendations, getProductVariants } from '../services/api';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -41,22 +42,33 @@ function ProductDetail() {
       .catch(err => setError(err.message));
   }, [id]);
 
-  useEffect(() => {
-    if (product) {
-      getProducts()
-        .then(res => {
-          const related = res.data.filter(
-            p => p.category === product.category && p.id !== product.id
-          );
-          setRelatedProducts(related.slice(0, 4));
-        })
-        .catch(() => {});
+useEffect(() => {
+  if (product) {
+    getRecommendations(product.id)
+      .then(res => setRelatedProducts(res.data))
+      .catch(() => {});
 
-      getProductVariants(product.id)
-        .then(res => setVariants(res.data))
-        .catch(() => {});
-    }
-  }, [product]);
+    getProductVariants(product.id)
+      .then(res => setVariants(res.data))
+      .catch(() => {});
+  }
+}, [product]);
+  // useEffect(() => {
+  //   if (product) {
+  //     getProducts()
+  //       .then(res => {
+  //         const related = res.data.filter(
+  //           p => p.category === product.category && p.id !== product.id
+  //         );
+  //         setRelatedProducts(related.slice(0, 4));
+  //       })
+  //       .catch(() => {});
+
+  //     getProductVariants(product.id)
+  //       .then(res => setVariants(res.data))
+  //       .catch(() => {});
+  //   }
+  // }, [product]);
 
   const handleAddAllToCart = () => {
     dispatch(addToCart(product));
@@ -221,16 +233,16 @@ const handleAddToCart = (e) => {
         </div>
       )}
 
-      {relatedProducts.length > 0 && (
-        <div className="related-products-section">
-          <h2>{t('related_products')}</h2>
-          <div className="product-grid">
-            {relatedProducts.map(p => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </div>
-      )}
+ {relatedProducts.length > 0 && (
+  <div className="related-products-section">
+    <h2>{t('customers_also_bought')}</h2>
+    <div className="product-grid">
+      {relatedProducts.map(p => (
+        <ProductCard key={p.id} product={p} />
+      ))}
+    </div>
+  </div>
+)}
 
       <ProductReviews productId={product.id} />
       <RecentlyViewed excludeId={product.id} />

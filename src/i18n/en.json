@@ -180,6 +180,8 @@
 "reorder": "Reorder",
 "reorder_added": "Items added to cart!",
 "reorder_failed": "Could not reorder items",
-"reorder_partial": "Some items are no longer available"
+"reorder_partial": "Some items are no longer available",
+
+"customers_also_bought": "Customers Who Bought This Also Bought"
 }
 
