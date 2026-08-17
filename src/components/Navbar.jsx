@@ -47,12 +47,14 @@ const handleThemeToggle = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-logo">{t('appName')}</Link>
- <SearchAutocomplete
-        searchTerm={searchTerm}
-        onSearchChange={onSearchChange}
-        products={products || []}
-      />
+    <div className="navbar-brand-search">
+  <Link to="/" className="navbar-logo">{t('appName')}</Link>
+  <SearchAutocomplete
+    searchTerm={searchTerm}
+    onSearchChange={onSearchChange}
+    products={products || []}
+  />
+</div>
      
 
       <div className="navbar-actions">

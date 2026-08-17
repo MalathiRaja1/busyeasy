@@ -2437,3 +2437,25 @@ body {
 .dark-theme .admin-dropdown-menu a:hover {
   background-color: #2a2a2a;
 }
+
+.navbar-brand-search {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.navbar-logo {
+  flex-shrink: 0; /* logo text never shrinks */
+}
+
+.search-autocomplete {
+  flex: 1 1 200px;
+  min-width: 150px; /* search can shrink, but never disappears */
+  max-width: 500px;
+}
+
+.navbar-actions {
+  flex: 0 1 auto;
+}
