@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { getMyOrders, downloadInvoice, cancelOrder, requestReturn } from '../services/api';
 import OrderTimeline from '../components/OrderTimeline';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { addToCart } from '../redux/cartSlice';
+import { getProductById } from '../services/api';
 
 function Orders() {
   const { t } = useTranslation();
@@ -14,6 +18,38 @@ function Orders() {
   const [actionOrderId, setActionOrderId] = useState(null);
   const [actionType, setActionType] = useState(null);
   const [reason, setReason] = useState('');
+  const dispatch = useDispatch();
+const navigate = useNavigate();
+
+const handleReorder = async (order) => {
+  try {
+    const productPromises = order.items.map(item => getProductById(item.productId).catch(() => null));
+    const results = await Promise.all(productPromises);
+
+    let addedCount = 0;
+    order.items.forEach((item, idx) => {
+      const freshProduct = results[idx]?.data;
+      if (freshProduct) {
+        for (let i = 0; i < item.quantity; i++) {
+          dispatch(addToCart(freshProduct));
+        }
+        addedCount++;
+      }
+    });
+
+    if (addedCount === 0) {
+      toast.error(t('reorder_failed'));
+    } else if (addedCount < order.items.length) {
+      toast(t('reorder_partial'), { icon: '⚠️' });
+      navigate('/cart');
+    } else {
+      toast.success(t('reorder_added'));
+      navigate('/cart');
+    }
+  } catch (err) {
+    toast.error(t('reorder_failed'));
+  }
+};
 
   const openActionModal = (orderId, type) => {
     setActionOrderId(orderId);
@@ -98,8 +134,17 @@ function Orders() {
               <strong>{t('total')}: ₹{order.totalAmount}</strong>
             </div>
 
-            <button className="invoice-btn" onClick={() => handleDownloadInvoice(order.id)}>📄 Download Invoice</button>
+           <button className="invoice-btn" onClick={() => handleDownloadInvoice(order.id)}>📄 Download Invoice</button>
 
+<button className="reorder-btn" onClick={() => handleReorder(order)}>
+  🔁 {t('reorder')}
+</button>
+
+{order.status === 'Pending' && (
+  <button className="cancel-order-btn" onClick={() => openActionModal(order.id, 'cancel')}>
+    Cancel Order
+  </button>
+)}
             {order.status === 'Pending' && (
               <button className="cancel-order-btn" onClick={() => openActionModal(order.id, 'cancel')}>
                 Cancel Order
