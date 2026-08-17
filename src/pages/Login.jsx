@@ -5,6 +5,9 @@ import { loginUser } from '../services/authApi';
 import { setAuth } from '../redux/authSlice';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { GoogleLogin } from '@react-oauth/google';
+import { googleLogin } from '../services/authApi';
+
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,8 +16,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  import { GoogleLogin } from '@react-oauth/google';
-import { googleLogin } from '../services/authApi';
+  
 
 const handleSubmit = async (e) => {
   e.preventDefault();

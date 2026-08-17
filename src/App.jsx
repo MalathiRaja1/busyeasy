@@ -29,7 +29,7 @@ import Footer from './components/Footer';
 import BannerCarousel from './components/BannerCarousel';
 import SupportWidget from './components/SupportWidget';
 import ProductCardSkeleton from './components/ProductCardSkeleton';
-import { useLocation } from 'react-router-dom';
+
 import { trackPageView } from './utils/analytics';
 
 import './App.css';
@@ -122,7 +122,15 @@ function Home({ products, error, reloadProducts, searchTerm, selectedCategory, c
     </main>
   );
 }
+function RouteTracker() {
+  const location = useLocation();
 
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location]);
+
+  return null;
+}
 function App() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);

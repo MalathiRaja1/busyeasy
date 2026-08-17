@@ -54,6 +54,16 @@ const handleSubmit = async (e) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <div className="social-login-divider">
+  <span>OR</span>
+</div>
+
+<div className="google-login-wrapper">
+  <GoogleLogin
+    onSuccess={handleGoogleSuccess}
+    onError={() => setError('Google login failed')}
+  />
+</div>
         <button type="submit">{t('sign_up')}</button>
        <p>{t('already_have_account')} <a href="/login">{t('login')}</a></p>
       </form>
