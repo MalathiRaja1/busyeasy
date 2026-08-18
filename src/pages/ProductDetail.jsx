@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
-import { getProductById, getProducts, getProductVariants } from '../services/api';
+import { getProductById, getRecommendations, getProductVariants } from '../services/api';
 import { addToCart } from '../redux/cartSlice';
 import ProductCard from '../components/ProductCard';
 import ProductReviews from '../components/ProductReviews';
@@ -14,7 +14,6 @@ import { Helmet } from 'react-helmet-async';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import StickyAddToCart from '../components/StickyAddToCart';
 import { trackEvent } from '../utils/analytics';
-import { getProductById, getRecommendations, getProductVariants } from '../services/api';
 
 function ProductDetail() {
   const { id } = useParams();
