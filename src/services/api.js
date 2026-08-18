@@ -53,5 +53,6 @@ export const markAllNotificationsRead = () => axiosInstance.put("/notifications/
 export const cancelOrder = (id, reason) => axiosInstance.put(`/orders/${id}/cancel`, { reason });
 export const requestReturn = (id, reason) => axiosInstance.put(`/orders/${id}/return`, { reason });
 export const getRecommendations = (productId) => axiosInstance.get(`/products/${productId}/recommendations`);
+export const sendChatMessage = (message, history) => axiosInstance.post("/chat", { message, history });
 
 export default axiosInstance;
