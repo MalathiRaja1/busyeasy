@@ -32,6 +32,7 @@ import ProductCardSkeleton from './components/ProductCardSkeleton';
 import { useSelector } from 'react-redux';
 import { trackPageView } from './utils/analytics';
 import Wallet from './pages/Wallet';
+import Deals from './pages/Deals';
 
 import './App.css';
 
@@ -193,6 +194,7 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/deals" element={<Deals />} />
         </Routes>
         <Footer />
         <SupportWidget />

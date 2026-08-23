@@ -190,6 +190,11 @@
 "transaction_history": "Transaction History",
 "no_transactions": "No transactions yet",
 "use_wallet_balance": "Use Wallet Balance",
-"applied_from_wallet": "applied from wallet"
+"applied_from_wallet": "applied from wallet",
+
+"flash_sale": "Flash Sale",
+"flash_sale_subtitle": "Limited time offers - grab them before they're gone!",
+"no_active_deals": "No active deals right now. Check back soon!",
+"deals": "Deals"
 }
 

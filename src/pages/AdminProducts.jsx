@@ -9,9 +9,9 @@ import React from 'react';
 import VariantManager from '../components/VariantManager';
 
 const emptyForm = {
-  name: '', description: '', price: '', imageUrl: '', additionalImageUrls: '', category: '', stock: ''
+  name: '', description: '', price: '', imageUrl: '', additionalImageUrls: '',
+  category: '', stock: '', salePrice: '', saleEndsAt: ''
 };
-
 function AdminProducts() {
   const { role } = useSelector(state => state.auth);
   const [products, setProducts] = useState([]);
@@ -65,6 +65,8 @@ const handleSubmit = async (e) => {
       ...form,
       price: parseFloat(form.price),
       stock: parseInt(form.stock),
+  salePrice: form.salePrice ? parseFloat(form.salePrice) : null,
+  saleEndsAt: form.saleEndsAt ? new Date(form.saleEndsAt).toISOString() : null,
     };
     console.log("Payload being sent:", payload);
 
@@ -98,6 +100,8 @@ const handleEdit = (product) => {
     additionalImageUrls: product.additionalImageUrls || '',
     category: product.category,
     stock: product.stock,
+    salePrice: product.salePrice || '',
+    saleEndsAt: product.saleEndsAt ? product.saleEndsAt.slice(0, 16) : '',
   });
   setEditingId(product.id);
 };
@@ -185,7 +189,20 @@ const handleDeleteVariant = async (variantId, productId) => {
 />
         <input type="text" name="category" placeholder={t('category')} value={form.category} onChange={handleChange} required />
         <input type="number" name="stock" placeholder={t('stock')} value={form.stock} onChange={handleChange} required />
-
+<input
+  type="number"
+  name="salePrice"
+  placeholder="Sale Price (optional)"
+  value={form.salePrice}
+  onChange={handleChange}
+/>
+<input
+  type="datetime-local"
+  name="saleEndsAt"
+  placeholder="Sale Ends At"
+  value={form.saleEndsAt}
+  onChange={handleChange}
+/>
       <div className="admin-form-actions">
         <button type="submit">{editingId ? 'Update Product' : 'Add Product'}</button>
         {editingId && <button type="button" onClick={handleCancelEdit} className="cancel-btn">Cancel</button>}

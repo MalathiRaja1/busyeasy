@@ -50,7 +50,12 @@ const handleWishlistToggle = (e) => {
         <div className="product-info">
           <span className="product-category">{product.category}</span>
           <h3 className="product-name">{product.name}</h3>
-          <p className="product-price">₹{product.price}</p>
+         <p className="product-price">
+  ₹{product.price}
+  {product.originalPrice && (
+    <span className="product-original-price">₹{product.originalPrice}</span>
+  )}
+</p>
          <p className={product.stock > 0 ? "in-stock" : "out-of-stock"}>
   {product.stock === 0 && t('out_of_stock')}
   {product.stock > 0 && product.stock <= 5 && (

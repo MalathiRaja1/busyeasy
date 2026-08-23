@@ -56,5 +56,6 @@ export const getRecommendations = (productId) => axiosInstance.get(`/products/${
 export const sendChatMessage = (message, history) => axiosInstance.post("/chat", { message, history });
 export const getWalletBalance = () => axiosInstance.get("/wallet/balance");
 export const getWalletTransactions = () => axiosInstance.get("/wallet/transactions");
+export const getDeals = () => axiosInstance.get("/products/deals");
 
 export default axiosInstance;
