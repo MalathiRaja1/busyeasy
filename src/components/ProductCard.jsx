@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { addToCart } from '../redux/cartSlice';
 import { toggleWishlist } from '../redux/wishlistSlice';
 import toast from 'react-hot-toast';
+import { getDeliveryEstimate } from '../utils/deliveryEstimate';
 
 
 function ProductCard({ product }) {
@@ -13,6 +14,7 @@ function ProductCard({ product }) {
   const wishlistItems = useSelector(state => state.wishlist.items);
   const isWishlisted = wishlistItems.some(item => item.id === product.id);
   const [justAdded, setJustAdded] = useState(false);
+  const delivery = getDeliveryEstimate(product.stock);
 
  const handleAddToCart = (e) => {
   e.preventDefault();
@@ -56,6 +58,11 @@ const handleWishlistToggle = (e) => {
   )}
   {product.stock > 5 && `${t('in_stock')} (${product.stock})`}
 </p>
+{delivery && (
+  <p className={`delivery-estimate ${delivery.speed}`}>
+    🚚 {delivery.text}
+  </p>
+)}
           <button
             className={`add-to-cart-btn ${justAdded ? 'added' : ''}`}
             disabled={product.stock === 0}

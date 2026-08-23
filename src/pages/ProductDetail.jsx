@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet-async';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import StickyAddToCart from '../components/StickyAddToCart';
 import { trackEvent } from '../utils/analytics';
+import { getDeliveryEstimate } from '../utils/deliveryEstimate';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -27,6 +28,7 @@ function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState(null);
   const dispatch = useDispatch();
   const frequentlyBought = relatedProducts.slice(0, 2);
+  const delivery = getDeliveryEstimate(availableStock);
 
   useEffect(() => {
     setProduct(null);
@@ -190,6 +192,11 @@ const handleAddToCart = (e) => {
   )}
   {(!hasVariants || matchedVariant) && availableStock > 5 && `${t('in_stock')} (${availableStock} ${t('available')})`}
 </p>
+{delivery && (
+  <p className={`delivery-estimate-detail ${delivery.speed}`}>
+    🚚 <strong>{delivery.text}</strong> ({delivery.dateText})
+  </p>
+)}
 
           {canAddToCart && (
             <div className="quantity-selector">
