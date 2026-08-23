@@ -182,6 +182,14 @@
 "reorder_failed": "Could not reorder items",
 "reorder_partial": "Some items are no longer available",
 
-"customers_also_bought": "Customers Who Bought This Also Bought"
+"customers_also_bought": "Customers Who Bought This Also Bought",
+
+"wallet": "Wallet",
+"my_wallet": "My Wallet",
+"available_balance": "Available Balance",
+"transaction_history": "Transaction History",
+"no_transactions": "No transactions yet",
+"use_wallet_balance": "Use Wallet Balance",
+"applied_from_wallet": "applied from wallet"
 }
 

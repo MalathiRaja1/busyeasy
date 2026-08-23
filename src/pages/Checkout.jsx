@@ -13,6 +13,8 @@ import {
 } from '../services/api';
 import { clearCart } from '../redux/cartSlice';
 import { trackEvent } from '../utils/analytics';
+import { getWalletBalance } from '../services/api';
+
 
 function Checkout() {
   const { t } = useTranslation();
@@ -20,7 +22,8 @@ function Checkout() {
   const { token, fullName } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+const [walletBalance, setWalletBalance] = useState(0);
+const [useWallet, setUseWallet] = useState(false);
   const [form, setForm] = useState({
     customerName: fullName || '',
     email: '',
@@ -44,6 +47,14 @@ function Checkout() {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const finalTotal = couponApplied ? couponApplied.finalAmount : total;
 
+useEffect(() => {
+  if (token) {
+    getWalletBalance().then(res => setWalletBalance(res.data.balance)).catch(() => {});
+  }
+}, [token]);
+
+const walletAmountUsed = useWallet ? Math.min(walletBalance, finalTotal) : 0;
+const payableAmount = finalTotal - walletAmountUsed;
   useEffect(() => {
     if (token) {
       getMyAddresses().then(res => {
@@ -109,6 +120,7 @@ function Checkout() {
       postalCode: form.postalCode,
       phone: form.phone,
       totalAmount: finalTotal,
+        walletAmountUsed: walletAmountUsed,
       paymentMethod: paymentMethod === 'cod' ? 'COD' : 'Razorpay',
       couponCode: couponApplied?.code || null,
       items: cartItems.map(item => ({
@@ -147,7 +159,7 @@ function Checkout() {
     }
 
     try {
-      const razorpayRes = await createRazorpayOrder(finalTotal);
+      const razorpayRes = await createRazorpayOrder(payableAmount);
       const { orderId, amount, currency, keyId } = razorpayRes.data;
 
       const options = {
@@ -365,10 +377,26 @@ function Checkout() {
               ✓ {couponApplied.code} — {t('you_saved')} ₹{couponApplied.discountAmount}
             </p>
           )}
-
-          <button type="submit" disabled={loading}>
-            {loading ? t('placing_order') : paymentMethod === 'cod' ? `${t('place_order')} (COD)` : `${t('place_order')} (₹${finalTotal})`}
-          </button>
+{token && walletBalance > 0 && (
+  <div className="wallet-checkout-section">
+    <label className="wallet-use-check">
+      <input
+        type="checkbox"
+        checked={useWallet}
+        onChange={(e) => setUseWallet(e.target.checked)}
+      />
+      {t('use_wallet_balance')} (₹{walletBalance.toFixed(2)} {t('available')})
+    </label>
+    {useWallet && (
+      <p className="wallet-applied-text">
+        ✓ ₹{walletAmountUsed.toFixed(2)} {t('applied_from_wallet')}
+      </p>
+    )}
+  </div>
+)}
+         <button type="submit" disabled={loading}>
+  {loading ? t('placing_order') : `${t('place_order')} (₹${payableAmount.toFixed(2)})`}
+</button>
         </form>
 
         <div className="order-summary">

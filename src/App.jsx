@@ -31,6 +31,7 @@ import SupportWidget from './components/SupportWidget';
 import ProductCardSkeleton from './components/ProductCardSkeleton';
 import { useSelector } from 'react-redux';
 import { trackPageView } from './utils/analytics';
+import Wallet from './pages/Wallet';
 
 import './App.css';
 
@@ -191,6 +192,7 @@ function App() {
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/wallet" element={<Wallet />} />
         </Routes>
         <Footer />
         <SupportWidget />

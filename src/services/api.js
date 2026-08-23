@@ -54,5 +54,7 @@ export const cancelOrder = (id, reason) => axiosInstance.put(`/orders/${id}/canc
 export const requestReturn = (id, reason) => axiosInstance.put(`/orders/${id}/return`, { reason });
 export const getRecommendations = (productId) => axiosInstance.get(`/products/${productId}/recommendations`);
 export const sendChatMessage = (message, history) => axiosInstance.post("/chat", { message, history });
+export const getWalletBalance = () => axiosInstance.get("/wallet/balance");
+export const getWalletTransactions = () => axiosInstance.get("/wallet/transactions");
 
 export default axiosInstance;

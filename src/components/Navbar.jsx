@@ -89,7 +89,7 @@ const handleThemeToggle = () => {
         ) : (
           <Link to="/login" className="nav-btn">{t('login')}</Link>
         )}
-
+{token && <Link to="/wallet" className="nav-btn">💰 {t('wallet')}</Link>}
         <Link to="/cart" className="nav-btn cart-btn">
           🛒 {t('cart')}
           <span className="cart-count">{totalCount}</span>
