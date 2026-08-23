@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 
 function CountdownTimer({ endTime }) {
-  const calculateTimeLeft = () => {
-    const diff = new Date(endTime) - new Date();
-    if (diff <= 0) return null;
+ const calculateTimeLeft = () => {
+  const diff = new Date(endTime).getTime() - new Date().getTime();
+  if (diff <= 0) return null;
 
-    return {
-      hours: Math.floor(diff / (1000 * 60 * 60)),
-      minutes: Math.floor((diff / (1000 * 60)) % 60),
-      seconds: Math.floor((diff / 1000) % 60),
-    };
+  return {
+    hours: Math.floor(diff / (1000 * 60 * 60)),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
   };
+};
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
