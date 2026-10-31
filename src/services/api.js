@@ -1,8 +1,8 @@
 import axios from "axios";
 
 //const API_URL = "https://localhost:7117/api";
-const API_URL = "https://buyeasy-api-cda6efdmdybsemfc.centralindia-01.azurewebsites.net/api";
-
+//const API_URL = "https://buyeasy-api-cda6efdmdybsemfc.centralindia-01.azurewebsites.net/api";
+const API_URL = `${import.meta.env.VITE_API_URL || "https://localhost:7117/api"}/auth`;
 const axiosInstance = axios.create({
   baseURL: API_URL,
 });
